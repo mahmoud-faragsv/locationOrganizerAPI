@@ -9,7 +9,7 @@ import app from './src/app.js';
 import { init } from './src/config/db.js';
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`server up on: ${PORT}....`);
   init();
 });
@@ -18,7 +18,7 @@ app.listen(PORT, () => {
 process.on('unhandledRejection', (err) => {
   console.log(`${err.name}, ${err.message}`);
   console.log('UnhandledRejection error, server shutting down....');
-  app.close(() => {
+  server.close(() => {
     process.exit(1);
   });
 });

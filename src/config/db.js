@@ -8,7 +8,6 @@ let pool;
  */
 export const init = () => {
   try {
-    // console.log(db);
     pool = createPool({
       connectionLimit: ENV.CONNECTION_LIMIT,
       host: ENV.HOST,
@@ -19,13 +18,13 @@ export const init = () => {
     console.debug('MySql Adapter Pool generated successfully');
   } catch (err) {
     console.error('[mysql.connector][init][Error]: ', err);
-    throw new Error('failed to initialized pool');
+    throw new Error('failed to initialize pool');
   }
 };
 
 export const execute = (query, params) =>
   new Promise((resolve, reject) => {
-    pool.query(query, params, (err, rows, fields) => {
+    pool.query(query, [params], (err, rows, fields) => {
       if (err) {
         reject(err);
         return;

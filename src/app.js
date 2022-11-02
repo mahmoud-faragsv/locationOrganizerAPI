@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import 'express-async-errors';
 import morgan from 'morgan';
 //Routes
-import levelRouter from './api/level/level.route.js';
+import levelRouter from './api/unit/unit.route.js';
 import levelContentRouter from './api/level-content/level-content.route.js';
 
 import globalErrHandler from './middelwares/globalErrHandler.js';
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 app.use(express.json());
-app.use('/api/v1/level', levelRouter);
+app.use('/api/v1/unit', levelRouter);
 app.use('/api/v1/level-content', levelContentRouter);
 
 app.all('*', async (req, res, next) => {
