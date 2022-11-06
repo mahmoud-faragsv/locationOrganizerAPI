@@ -9,11 +9,11 @@ let pool;
 export const init = () => {
   try {
     pool = createPool({
-      connectionLimit: 4,
-      host: '127.0.0.1',
-      user: 'root',
-      password: 'Password',
-      database: 'sverp'
+      connectionLimit: process.env.CONNECTION_LIMIT,
+      host: process.env.HOST,
+      user: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      database: process.env.DATABASE
     });
     console.debug(`MySql Adapter Pool generated successfully...`);
   } catch (err) {
