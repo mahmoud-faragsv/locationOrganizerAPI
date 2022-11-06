@@ -5,7 +5,7 @@ import {
   getAllRecords,
   getRecord,
   updateRecord
-} from './record.controller';
+} from './record.controller.js';
 
 const router = express.Router();
 

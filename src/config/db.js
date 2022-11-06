@@ -1,5 +1,5 @@
 import { createPool } from 'mysql2';
-import ENV from './index.js';
+// import ENV from './index.js';
 
 let pool;
 
@@ -9,13 +9,13 @@ let pool;
 export const init = () => {
   try {
     pool = createPool({
-      connectionLimit: ENV.CONNECTION_LIMIT,
-      host: ENV.HOST,
-      user: ENV.USERNAME,
-      password: ENV.PASSWORD,
-      database: ENV.DATABASE
+      connectionLimit: 4,
+      host: '127.0.0.1',
+      user: 'root',
+      password: 'Password',
+      database: 'sverp'
     });
-    console.debug('MySql Adapter Pool generated successfully');
+    console.debug(`MySql Adapter Pool generated successfully...`);
   } catch (err) {
     console.error('[mysql.connector][init][Error]: ', err);
     throw new Error('failed to initialize pool');

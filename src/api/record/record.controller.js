@@ -1,7 +1,4 @@
-// import BadRequestErr from '../../errors/badRequest.error.js';
-
-// import NotFoundErr from '../../errors/notFound.error.js';
-import catchAsyncErr from '../../utils/catchAyncErr.js';
+import { catchAsyncErr } from '../../general-utils/index.js';
 
 // http://domain/api/v1/record/
 export const createRecord = catchAsyncErr(async (req, res, next) => {
