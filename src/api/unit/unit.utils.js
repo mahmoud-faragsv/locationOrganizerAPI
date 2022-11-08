@@ -39,12 +39,12 @@ export const handleUnitsIds = (arr) => {
   return messageKeys;
 };
 
-export const addIdsToMsgTypes = (resIds, levelsTypes) => {
-  const idsOnly = resIds[0];
-  levelsTypes.forEach((element, indx) => {
-    element.push(idsOnly[indx].ID);
-  });
-};
+// export const addIdsToMsgTypes = (resIds, levelsTypes) => {
+//   const idsOnly = resIds[0];
+//   levelsTypes.forEach((element, indx) => {
+//     element.push(idsOnly[indx].ID);
+//   });
+// };
 export const genBulkTypeValidation = (ids, payload) => {
   const bulk = [];
   payload.forEach((unit) => {
