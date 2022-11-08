@@ -1,0 +1,41 @@
+@dev=http://localhost:3000/api/v1
+
+
+
+
+
+POST {{dev}}/unit
+Content-Type: application/json
+
+{
+ "lang":"Eng",
+  "payload":[
+	{"type": "Country", "parent": [null], "color":"#99932"}, 
+	{"type": "City", "parent": ["Country"], "color":"#87867"},
+	{"type": "Area", "parent": ["City","Country" ] , "color":"#756578"},
+    {"type": "Street", "parent": ["Area","Country" ] , "color":"#756578"},
+	{"type": "Flat", "parent": ["Country","Area","Street"], "color":"#676786"}
+]
+ 
+}
+
+
+
+
+
+
+# [
+#     'msgk_fd9fcf63',
+#     'msgk_f8762c57',
+#     'msgk_7769a054',
+#     'msgk_8e9b1a8b',
+#     'msgk_fb073ed8'
+#   ]
+
+# [
+#     ['msgk_fd9fcf63', 'Country'],
+#     ['msgk_f8762c57', 'City'],
+#     ['msgk_7769a054', 'Area'],
+#     ['msgk_8e9b1a8b', 'Street'],
+#     ['msgk_fb073ed8', 'Flat']
+#   ]

@@ -1,7 +1,8 @@
 export const lookUpQueries = {
   insert: `
-     INSERT INTO LOOK_UP (PARENT_ID, UNIQUE_KEY, CATEGORY, TITLE_KEY, CUSTOM_PROPS) VALUES ?;
-    `
+     INSERT INTO LOOK_UP ( UNIQUE_KEY, CATEGORY, TITLE_KEY,PARENT_ID, CUSTOM_PROPS) VALUES ?;
+    `,
+  getLevelsSetIds: `SELECT ID, TITLE_KEY FROM look_up WHERE UNIQUE_KEY IN (?);`
 };
 export const bundleResourceQueries = {
   insert:
@@ -10,4 +11,8 @@ export const bundleResourceQueries = {
 
 export const languageQueries = {
   getLanTypeByName: `SELECT ID FROM LANGUAGE  WHERE SHORT_LABEL LIKE ?;`
+};
+
+export const typeValidationQueries = {
+  insert: `INSERT INTO LO_TYPE_VALIDATION (TYPE_ID, ALLOWED_CHILD_TYPE_ID) VALUES ?;`
 };

@@ -1,14 +1,21 @@
-import { execute } from '../../config/db.js';
 import {
   bundleResourceQueries,
   lookUpQueries,
-  languageQueries
+  languageQueries,
+  typeValidationQueries
 } from './unit.queries.js';
+import { Query } from '../../config/db.js';
 
-export const addToLookUp = (data) => execute(lookUpQueries.insert, data);
+export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
 
-export const addToResBundle = (data) =>
-  execute(bundleResourceQueries.insert, data);
+export const addToResBundle = (params) =>
+  Query(bundleResourceQueries.insert, params);
 
-export const getLangType = (data) =>
-  execute(languageQueries.getLanTypeByName, `%${data}%`);
+export const getLangType = (params) =>
+  Query(languageQueries.getLanTypeByName, `%${params}%`);
+
+export const getSetOfLevelsIds = (params) =>
+  Query(lookUpQueries.getLevelsSetIds, params);
+
+export const addToTypeValidation = (params) =>
+  Query(typeValidationQueries.insert, params);

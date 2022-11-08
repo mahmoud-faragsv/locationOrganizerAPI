@@ -9,10 +9,10 @@ let pool;
 export const init = () => {
   try {
     pool = createPool({
-      connectionLimit: process.env.CONNECTION_LIMIT,
-      host: process.env.HOST,
-      user: process.env.USERNAME,
-      password: process.env.PASSWORD,
+      connectionLimit: process.env.DB_CONNECTION_LIMIT,
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
       database: process.env.DATABASE
     });
     console.debug(`MySql Adapter Pool generated successfully...`);
@@ -22,7 +22,7 @@ export const init = () => {
   }
 };
 
-export const execute = (query, params) =>
+export const Query = (query, params) =>
   new Promise((resolve, reject) => {
     pool.query(query, [params], (err, rows, fields) => {
       if (err) {
@@ -32,3 +32,14 @@ export const execute = (query, params) =>
       resolve([rows, fields]);
     });
   });
+// export const Execute = (query, params) =>
+//   new Promise((resolve, reject) => {
+//     pool.query(query, [params], (err, rows, fields) => {
+//       if (err) {
+//         reject(err);
+//         return;
+//       }
+
+//       resolve([rows, fields]);
+//     });
+//   });

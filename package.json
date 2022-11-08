@@ -5,9 +5,9 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start:dev": " nodemon server.js",
+    "start:dev": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production& nodemon server.js",
-    "start:debug": "SET NODE_ENV=production& ndb server.js"
+    "start:debug": "SET NODE_ENV=development& ndb server.js"
   },
   "keywords": [],
   "author": "",
