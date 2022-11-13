@@ -1,9 +1,14 @@
 import { genKey } from '../../general-utils/index.js';
 
+/**
+ * -the main goal of this module is to make Our code more clean, elegant, readable,
+ *  and modularized
+ * -so any function we may need to create to do some stuff related to unit route... it will be her
+ */
 export const genLookUpBulk = (payload, bundleParams) => {
-  const nestedArr = [];
+  const bulk = [];
   bundleParams.forEach((element, indx) => {
-    nestedArr.push([
+    bulk.push([
       element[1],
       2, // this value related to CATEGORY field, its mandatory so i just filled it with any integer till further notification
       element[3],
@@ -12,24 +17,25 @@ export const genLookUpBulk = (payload, bundleParams) => {
     ]);
   });
 
-  return nestedArr;
+  return bulk;
 };
 
 export const genBulkQueryParams = (langID, payload) => {
   const LANGUAGE_ID = langID;
-  const BUNDLE_KEY = 'USERS_DEFINED';
+  const BUNDLE_KEY = process.env.USERS_DEFINED_BUNDLE_KEY; // USERS_DEFINED_BUNDLE_KEY=USERS_DEFINED
 
   const bulk = [];
-  const msgSize = 4;
   payload.forEach((element) => {
     const MESSAGE_VALUE = element.type;
-    const MESSAGE_KEY = `msgk_${genKey(msgSize)}`;
+    const MESSAGE_KEY = `msgk_${genKey(
+      process.env.RES_BUNDLE_MESSAGE_KEY_SIZE //  RES_BUNDLE_MESSAGE_KEY_SIZE = 8
+    )}`;
     const record = [LANGUAGE_ID, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE];
     bulk.push(record);
   });
   return bulk;
 };
-export const handleUnitsIds = (arr) => {
+export const prepareUnitsIds = (arr) => {
   const messageKeys = [];
   // const levelsTypes = [];
   arr.forEach((element) => {

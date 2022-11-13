@@ -1,15 +1,18 @@
 import express from 'express';
 import {
-  createRecord,
+  addChildRecord,
   deleteRecord,
   getAllRecords,
   getRecord,
-  updateRecord
+  updateRecord,
+  addRootRecord
 } from './record.controller.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllRecords).post(createRecord);
+router.route('/').get(getAllRecords);
+router.route('/child-record').post(addChildRecord);
+router.route('/root-record').post(addRootRecord);
 
 router.route('/:id').get(getRecord).patch(updateRecord).delete(deleteRecord);
 

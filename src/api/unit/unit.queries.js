@@ -1,3 +1,9 @@
+/**
+ * - The main goal of this module is to grouping all the possible queries(native-sql)
+ *    which we may need it for interacting with the db from unit route perspective.
+ * - unit.services is the only module which can consuming this module queries-objects
+ */
+
 export const lookUpQueries = {
   insert: `
      INSERT INTO LOOK_UP ( UNIQUE_KEY, CATEGORY, TITLE_KEY,PARENT_ID, CUSTOM_PROPS) VALUES ?;
@@ -7,10 +13,6 @@ export const lookUpQueries = {
 export const bundleResourceQueries = {
   insert:
     'INSERT INTO RESOURCE_BUNDLE (LANGUAGE_ID, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE) VALUES ?;'
-};
-
-export const languageQueries = {
-  getLanTypeByName: `SELECT ID FROM LANGUAGE  WHERE SHORT_LABEL LIKE ?;`
 };
 
 export const typeValidationQueries = {

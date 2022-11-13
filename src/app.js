@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json());
 app.use('/api/v1/unit', unitRouter);
-app.use('/api/v1/level-content', recordRouter);
+app.use('/api/v1/record', recordRouter);
 
 app.all('*', async (req, res, next) => {
   throw new NotFoundErr(`Can not find ${req.originalUrl} on this server`);

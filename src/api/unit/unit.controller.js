@@ -1,16 +1,17 @@
+import { StatusCodes } from 'http-status-codes';
 import catchAsyncErr from '../../general-utils/catchAsyncErr.js';
+import { getLangType } from '../../shared/shared.services.js';
 import {
   addToLookUp,
   addToResBundle,
   addToTypeValidation,
-  getLangType,
   getSetOfLevelsIds
 } from './unit.services.js';
 import {
   genBulkQueryParams,
   genLookUpBulk,
   genBulkTypeValidation,
-  handleUnitsIds
+  prepareUnitsIds
 } from './unit.utils.js';
 
 //? http://localhost:3000/api/v1/Unit POST
@@ -33,13 +34,13 @@ export const createUnit = catchAsyncErr(async (req, res) => {
   await addToLookUp(queryParams);
 
   // 4) insert into TYPE_VALIDATION t
-  const messageKeys = handleUnitsIds(bundleParams);
+  const messageKeys = prepareUnitsIds(bundleParams);
 
   const resIds = await getSetOfLevelsIds(messageKeys);
 
   const bulk = genBulkTypeValidation(resIds[0], payload);
   await addToTypeValidation(bulk);
-  res.status(201).json({
+  res.status(StatusCodes.CREATED).json({
     status: 'success',
     message: 'Your levels created successfully'
   });
