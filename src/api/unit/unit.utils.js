@@ -22,14 +22,12 @@ export const genLookUpBulk = (payload, bundleParams) => {
 
 export const genBulkQueryParams = (langID, payload) => {
   const LANGUAGE_ID = langID;
-  const BUNDLE_KEY = process.env.USERS_DEFINED_BUNDLE_KEY; // USERS_DEFINED_BUNDLE_KEY=USERS_DEFINED
+  const BUNDLE_KEY = process.env.USERS_DEFINED_BUNDLE_KEY;
 
   const bulk = [];
   payload.forEach((element) => {
     const MESSAGE_VALUE = element.type;
-    const MESSAGE_KEY = `msgk_${genKey(
-      process.env.RES_BUNDLE_MESSAGE_KEY_SIZE //  RES_BUNDLE_MESSAGE_KEY_SIZE = 8
-    )}`;
+    const MESSAGE_KEY = genKey(+process.env.RES_BUNDLE_MESSAGE_KEY_SIZE);
     const record = [LANGUAGE_ID, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE];
     bulk.push(record);
   });

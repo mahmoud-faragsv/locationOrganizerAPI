@@ -6,7 +6,10 @@ import morgan from 'morgan';
 import unitRouter from './api/unit/unit.route.js';
 import recordRouter from './api/record/record.route.js';
 
-import globalErrHandler from './middelwares/globalErrHandler.js';
+import {
+  globalErrHandler,
+  getLanguageID
+} from './general-middlewares/index.js';
 import NotFoundErr from './errors/notFound.error.js';
 // import dotenv from 'dotenv';
 dotenv.config();
@@ -18,7 +21,10 @@ console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
 app.use(express.json());
+app.use(getLanguageID);
+
 app.use('/api/v1/unit', unitRouter);
 app.use('/api/v1/record', recordRouter);
 

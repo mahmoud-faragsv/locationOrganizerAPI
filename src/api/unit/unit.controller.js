@@ -1,9 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import catchAsyncErr from '../../general-utils/catchAsyncErr.js';
-import { getLangType } from '../../shared/shared.services.js';
+import { addToResBundle } from '../../shared/shared.services.js';
 import {
   addToLookUp,
-  addToResBundle,
   addToTypeValidation,
   getSetOfLevelsIds
 } from './unit.services.js';
@@ -20,13 +19,10 @@ export const createUnit = catchAsyncErr(async (req, res) => {
    * payload:[levelOb1,levelObject2.....]
    * lang: string in Arab, Eng......
    */
-  const { payload, lang } = req.body;
-  // 1)
-  const resLang = await getLangType(lang);
-  const { ID: langTypeID } = resLang[0][0];
+  const { payload } = req.body;
 
   // 2)
-  const bundleParams = genBulkQueryParams(langTypeID, payload);
+  const bundleParams = genBulkQueryParams(req.langTypeID, payload);
   await addToResBundle(bundleParams);
 
   // 3)

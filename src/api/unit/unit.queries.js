@@ -10,10 +10,6 @@ export const lookUpQueries = {
     `,
   getLevelsSetIds: `SELECT ID, TITLE_KEY FROM look_up WHERE UNIQUE_KEY IN (?);`
 };
-export const bundleResourceQueries = {
-  insert:
-    'INSERT INTO RESOURCE_BUNDLE (LANGUAGE_ID, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE) VALUES ?;'
-};
 
 export const typeValidationQueries = {
   insert: `INSERT INTO LO_TYPE_VALIDATION (TYPE_ID, ALLOWED_CHILD_TYPE_ID) VALUES ?;`

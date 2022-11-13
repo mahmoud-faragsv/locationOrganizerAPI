@@ -7,17 +7,10 @@
  * - this module acts aas a linker between the controller and the queries modules
  */
 
-import {
-  bundleResourceQueries,
-  lookUpQueries,
-  typeValidationQueries
-} from './unit.queries.js';
+import { lookUpQueries, typeValidationQueries } from './unit.queries.js';
 import { Query } from '../../config/db.js';
 
 export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
-
-export const addToResBundle = (params) =>
-  Query(bundleResourceQueries.insert, params);
 
 export const getSetOfLevelsIds = (params) =>
   Query(lookUpQueries.getLevelsSetIds, params);

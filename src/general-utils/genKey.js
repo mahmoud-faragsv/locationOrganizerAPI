@@ -1,5 +1,5 @@
 import { randomBytes } from 'crypto';
 
-const genKey = (length) => randomBytes(length).toString('hex');
+const genKey = (length) => `msgk_${randomBytes(length).toString('hex')}`;
 
 export default genKey;

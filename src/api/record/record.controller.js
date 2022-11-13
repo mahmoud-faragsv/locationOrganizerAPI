@@ -1,29 +1,24 @@
 import { StatusCodes } from 'http-status-codes';
+
 import { catchAsyncErr } from '../../general-utils/index.js';
-import { getLangType } from '../../shared/shared.services.js';
+import { addToResBundle } from '../../shared/shared.services.js';
+import { addToLoUnit } from './record.services.js';
 
-// http://domain/api/v1/record/
+// http://domain/api/v1/root-record/
 export const addRootRecord = catchAsyncErr(async (req, res, next) => {
-  const {
-    recordData: { recordName, recordCode },
-    lang
-  } = req.body;
+  await addToResBundle(req.ResBundleParams);
 
-  const resLang = await getLangType(lang);
-  const { ID: langTypeID } = resLang[0][0];
-
+  await addToLoUnit(req.loUnitParams);
   res.status(StatusCodes.CREATED).json({
     status: 'success',
-    data: { recordName, recordCode },
-    language: langTypeID
+    message: 'New record add successfully',
+    path: req.path
   });
 });
 export const addChildRecord = catchAsyncErr(async (req, res, next) => {
-  const { recordName, recordCode, recordType, recordParentCode } = req.body;
-
   res.status(StatusCodes.CREATED).json({
     status: 'success',
-    data: { recordName, recordCode, recordType, recordParentCode }
+    message: 'New record add successfully'
   });
 });
 // http://domain/api/v1/record/:id
