@@ -6,9 +6,9 @@ import { addToLoUnit } from './record.services.js';
 
 // http://domain/api/v1/root-record/
 export const addRootRecord = catchAsyncErr(async (req, res, next) => {
-  await addToResBundle(req.ResBundleParams);
+  // await addToResBundle(req.ResBundleParams);
 
-  await addToLoUnit(req.loUnitParams);
+  // await addToLoUnit(req.loUnitParams);
   res.status(StatusCodes.CREATED).json({
     status: 'success',
     message: 'New record add successfully',
@@ -18,7 +18,8 @@ export const addRootRecord = catchAsyncErr(async (req, res, next) => {
 export const addChildRecord = catchAsyncErr(async (req, res, next) => {
   res.status(StatusCodes.CREATED).json({
     status: 'success',
-    message: 'New record add successfully'
+    message: 'New record add successfully',
+    loUnitParams: req.loUnitParams
   });
 });
 // http://domain/api/v1/record/:id

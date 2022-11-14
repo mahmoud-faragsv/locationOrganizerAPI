@@ -3,5 +3,7 @@ export const languageQueries = {
 };
 export const bundleResourceQueries = {
   insert:
-    'INSERT INTO RESOURCE_BUNDLE (LANGUAGE_ID, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE) VALUES ?;'
+    'INSERT INTO RESOURCE_BUNDLE (LANGUAGE_ID, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE) VALUES ?;',
+  selectMessageKey:
+    'SELECT MESSAGE_KEY FROM resource_bundle WHERE MESSAGE_VALUE = ?;'
 };

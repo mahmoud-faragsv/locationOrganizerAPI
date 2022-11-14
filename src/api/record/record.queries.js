@@ -1,6 +1,8 @@
 export const loUnitQueries = {
   insert: `INSERT INTO LO_UNIT (NAME_KEY,RECORD_CODE, PARENT_ID, TYPE, OUID,IMAGE_VSID, ADDED_BY,UPDATED_BY,ADD_TIME,UPDATE_TIME)
-  VALUES ?;`
+  VALUES ?;`,
+  selectIdByRecordCode: `SELECT ID FROM LO_UNIT WHERE RECORD_CODE= ? ;
+  `
 };
 export const typeValidationQueries = {
   selectParentId: `SELECT DISTINCT(t1.TYPE_ID) FROM LO_TYPE_VALIDATION t1  
@@ -10,6 +12,6 @@ export const typeValidationQueries = {
 };
 
 export const lookUpQueries = {
-  selectId: ` SELECT ID FROM look_up WHERE TITLE_KEY = ?;
+  selectId: ` SELECT ID FROM look_up WHERE UNIQUE_KEY = ?;
   `
 };

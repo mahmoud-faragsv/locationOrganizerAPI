@@ -6,3 +6,5 @@ export const getLangType = (params) =>
 
 export const addToResBundle = (params) =>
   Query(bundleResourceQueries.insert, params);
+export const getMsgKey = (params) =>
+  Query(bundleResourceQueries.selectMessageKey, params);
