@@ -1,3 +1,4 @@
+import CONSTANTS from '../../common/messages.js';
 import OperationalErr from './operational.error.js';
 
 const handleProductionErrs = (res, error) => {
@@ -10,6 +11,9 @@ const handleProductionErrs = (res, error) => {
       message: error.message
     });
   }
-  res.status(500).json({ status: 'error', message: 'Something went wrong' });
+  res.status(500).json({
+    status: CONSTANTS.MSG.ERROR,
+    message: CONSTANTS.MSG.INTERNAL_SERVER_ERR
+  });
 };
 export default handleProductionErrs;

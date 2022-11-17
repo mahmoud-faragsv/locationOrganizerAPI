@@ -1,3 +1,4 @@
+import CONSTANTS from '../../common/messages.js';
 import OperationalErr from './operational.error.js';
 
 const handleDevelopmentErrs = (res, error) => {
@@ -10,7 +11,7 @@ const handleDevelopmentErrs = (res, error) => {
     });
   }
   res.status(500).json({
-    status: 'error',
+    status: CONSTANTS.MSG.ERROR,
     error,
     errStack: error.stack,
     message: error.message

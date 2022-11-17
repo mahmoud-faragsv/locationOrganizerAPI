@@ -1,7 +1,7 @@
 /**
  * - The main goal of this module is to grouping all the possible queries(native-sql)
- *    which we may need it for interacting with the db from unit route perspective.
- * - unit.services is the only module which can consuming this module queries-objects
+ *    which we may need it for interacting with the db from level route perspective.
+ * - level.services is the only module which can consuming this module queries-objects
  */
 
 export const lookUpQueries = {

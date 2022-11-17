@@ -1,4 +1,4 @@
-import { Query } from '../config/db.js';
+import { Query } from '../src/config/db.js';
 import { languageQueries, bundleResourceQueries } from './shared.queries.js';
 
 export const getLangType = (params) =>
@@ -8,3 +8,6 @@ export const addToResBundle = (params) =>
   Query(bundleResourceQueries.insert, params);
 export const getMsgKey = (params) =>
   Query(bundleResourceQueries.selectMessageKey, params);
+
+export const getMsgValue = (params) =>
+  Query(bundleResourceQueries.selectMsgValue, params);

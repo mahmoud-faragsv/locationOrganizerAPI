@@ -10,6 +10,8 @@ export const addToLoUnit = (params) => Query(loUnitQueries.insert, params);
 
 export const getUnitTypeId = () => Query(typeValidationQueries.selectParentId);
 export const GetLookUpId = (params) => Query(lookUpQueries.selectId, params);
-export const getIdByRecordCode = (params) =>
-  Query(loUnitQueries.selectIdByRecordCode, params);
- //somthing
+export const getIdByUnitCode = (params) =>
+  Query(loUnitQueries.selectIdByUnitCode, params);
+
+export const getUnitCode = (params) =>
+  Query(loUnitQueries.selectUnitCode, params);

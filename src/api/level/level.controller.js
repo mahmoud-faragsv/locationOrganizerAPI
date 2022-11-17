@@ -1,20 +1,21 @@
 import { StatusCodes } from 'http-status-codes';
+import CONSTANTS from '../../../common/messages.js';
+import { addToResBundle } from '../../../common/shared.services.js';
 import catchAsyncErr from '../../general-utils/catchAsyncErr.js';
-import { addToResBundle } from '../../shared/shared.services.js';
 import {
   addToLookUp,
   addToTypeValidation,
   getSetOfLevelsIds
-} from './unit.services.js';
+} from './level.services.js';
 import {
   genBulkQueryParams,
   genLookUpBulk,
   genBulkTypeValidation,
-  prepareUnitsIds
-} from './unit.utils.js';
+  prepareLevelsIds
+} from './level.utils.js';
 
-//? http://localhost:3000/api/v1/Unit POST
-export const createUnit = catchAsyncErr(async (req, res) => {
+//? http://localhost:3000/api/v1/level POST
+export const createLevel = catchAsyncErr(async (req, res) => {
   /*
    * payload:[levelOb1,levelObject2.....]
    * lang: string in Arab, Eng......
@@ -30,29 +31,15 @@ export const createUnit = catchAsyncErr(async (req, res) => {
   await addToLookUp(queryParams);
 
   // 4) insert into TYPE_VALIDATION t
-  const messageKeys = prepareUnitsIds(bundleParams);
+  const messageKeys = prepareLevelsIds(bundleParams);
 
   const resIds = await getSetOfLevelsIds(messageKeys);
 
   const bulk = genBulkTypeValidation(resIds[0], payload);
   await addToTypeValidation(bulk);
   res.status(StatusCodes.CREATED).json({
-    status: 'success',
-    message: 'Your levels created successfully'
+    status: CONSTANTS.MSG.SUCCESS,
+    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_LEVELS
   });
 });
-
-//? http://localhost:3000/api/v1/unit/:id GET
-export const getUnit = catchAsyncErr(async (req, res) => {
-  res.send('getUnit');
-});
-
-//? http://localhost:3000/api/v1/Unit GET
-export const getAllUnits = catchAsyncErr(async (req, res) => {
-  res.send('getAllUnits');
-});
-
-//? http://localhost:3000/api/v1/unit/:id PATCH
-export const updateUnit = catchAsyncErr(async (req, res) => {
-  res.send('updateUnit Unit');
-});
+export const x = () => {};

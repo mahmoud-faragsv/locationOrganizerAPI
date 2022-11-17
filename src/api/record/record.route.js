@@ -11,15 +11,26 @@ import {
   updateRecord,
   addRootRecord
 } from './record.controller.js';
+import { ValidateRootReq, ValidateChildReq } from './record.validator.js';
 
 const router = express.Router();
 router.route('/').get(getAllRecords);
 router
   .route('/child-record')
-  .post(buildResBundleParams, buildLoUnitQueryParams, addChildRecord);
+  .post(
+    ValidateChildReq,
+    buildResBundleParams,
+    buildLoUnitQueryParams,
+    addChildRecord
+  );
 router
   .route('/root-record')
-  .post(buildResBundleParams, buildLoUnitQueryParams, addRootRecord);
+  .post(
+    ValidateRootReq,
+    buildResBundleParams,
+    buildLoUnitQueryParams,
+    addRootRecord
+  );
 
 router.route('/:id').get(getRecord).patch(updateRecord).delete(deleteRecord);
 

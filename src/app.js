@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import 'express-async-errors';
 import morgan from 'morgan';
 //Routes
-import unitRouter from './api/unit/unit.route.js';
+import levelRouter from './api/level/level.route.js';
 import recordRouter from './api/record/record.route.js';
 
 import {
@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(getLanguageID);
 
-app.use('/api/v1/unit', unitRouter);
+app.use('/api/v1/level', levelRouter);
 app.use('/api/v1/record', recordRouter);
 
 app.all('*', async (req, res, next) => {

@@ -3,14 +3,14 @@ import { genKey } from '../../general-utils/index.js';
 /**
  * -the main goal of this module is to make Our code more clean, elegant, readable,
  *  and modularized
- * -so any function we may need to create to do some stuff related to unit route... it will be her
+ * -so any function we may need to create to do some stuff related to level route... it will be her
  */
 export const genLookUpBulk = (payload, bundleParams) => {
   const bulk = [];
   bundleParams.forEach((element, indx) => {
     bulk.push([
       element[1],
-      2, // this value related to CATEGORY field, its mandatory so i just filled it with any integer till further notification
+      1, // this value related to CATEGORY field, its mandatory so i just filled it with any integer till further notification
       element[3],
       null,
       { color: payload[indx].color }
@@ -33,7 +33,7 @@ export const genBulkQueryParams = (langID, payload) => {
   });
   return bulk;
 };
-export const prepareUnitsIds = (arr) => {
+export const prepareLevelsIds = (arr) => {
   const messageKeys = [];
   // const levelsTypes = [];
   arr.forEach((element) => {
@@ -51,13 +51,13 @@ export const prepareUnitsIds = (arr) => {
 // };
 export const genBulkTypeValidation = (ids, payload) => {
   const bulk = [];
-  payload.forEach((unit) => {
-    if (unit.parent !== null) {
+  payload.forEach((level) => {
+    if (!level.parent.includes(null)) {
       const { ID: allowedChildId } = ids.find(
-        (record) => record.TITLE_KEY === unit.type
+        (record) => record.TITLE_KEY === level.type
       );
 
-      unit.parent.forEach((parent) => {
+      level.parent.forEach((parent) => {
         const { ID: ParentId } = ids.find(
           (record) => record.TITLE_KEY === parent
         );
