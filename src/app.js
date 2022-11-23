@@ -1,14 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import 'express-async-errors';
 import morgan from 'morgan';
 //Routes
 import levelRouter from './api/level/level.route.js';
 import recordRouter from './api/record/record.route.js';
+import languageRouter from './api/language/language.route.js';
 
 import {
   globalErrHandler,
-  getLanguageID
+  bindLangInReq
 } from './general-middlewares/index.js';
 import NotFoundErr from './errors/notFound.error.js';
 // import dotenv from 'dotenv';
@@ -17,15 +20,20 @@ const app = express();
 app.get('/', (req, res) => {
   res.status(200).send('Server is up now ');
 });
+
+const __direName = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__direName, '..', 'public')));
+
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
 app.use(express.json());
-app.use(getLanguageID);
+app.use(bindLangInReq);
 
 app.use('/api/v1/level', levelRouter);
+app.use('/api/v1/languages', languageRouter);
 app.use('/api/v1/record', recordRouter);
 
 app.all('*', async (req, res, next) => {

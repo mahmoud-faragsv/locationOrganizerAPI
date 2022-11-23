@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import JoiMessages from '../../../common/Joi.constant.js';
+import CONSTANTS from '../../../common/messages.js';
 import BadRequestErr from '../../errors/badRequest.error.js';
 
 let schema;
@@ -15,7 +16,12 @@ export const ValidateRootReq = (req, res, next) => {
   });
   const { error } = schema.validate(req.body);
   if (error) {
-    return next(new BadRequestErr(error.details[0].message));
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
   }
 
   next();
@@ -33,7 +39,13 @@ export const ValidateChildReq = (req, res, next) => {
   });
   const { error } = schema.validate(req.body);
   // console.log(error);
-  if (error) return next(new BadRequestErr(error.details[0].message));
+  if (error)
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
 
   next();
 };

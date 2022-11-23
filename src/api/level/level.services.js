@@ -14,6 +14,7 @@ import {
   typeValidationQueries
 } from './level.queries.js';
 import { Query } from '../../config/db.js';
+import { bundleResourceQueries } from '../../../common/shared.queries.js';
 
 export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
 
@@ -36,3 +37,5 @@ export const updateLookUpTitleKeyAndCustomProps = (params) =>
   Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
 
 export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
+export const getLevels = (params) =>
+  Query(bundleResourceQueries.selectLevelsByLangAndCategory, params);

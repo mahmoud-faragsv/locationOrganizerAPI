@@ -1,15 +1,18 @@
 import express from 'express';
+
 import {
   buildLoUnitQueryParams,
-  buildResBundleParams
+  buildResBundleParams,
+  uploadSingleMap,
+  resizeUploadedMap
 } from './record.middleware.js';
 import {
   addChildRecord,
   deleteRecord,
   getAllRecords,
-  getRecord,
   updateRecord,
-  addRootRecord
+  addRootRecord,
+  uploadLocationMap
 } from './record.controller.js';
 import { ValidateRootReq, ValidateChildReq } from './record.validator.js';
 
@@ -32,6 +35,10 @@ router
     addRootRecord
   );
 
-router.route('/:id').get(getRecord).patch(updateRecord).delete(deleteRecord);
+router
+  .route('/:code')
+  .post(uploadSingleMap, resizeUploadedMap, uploadLocationMap)
+  .patch(updateRecord)
+  .delete(deleteRecord);
 
 export default router;

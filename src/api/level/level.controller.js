@@ -10,7 +10,8 @@ import {
   getNumOfRecords,
   getUniqueKey,
   updateLookUpTitleKeyAndCustomProps,
-  updateResBndlMessageValue
+  updateResBndlMessageValue,
+  getLevels
 } from './level.services.js';
 import {
   genBulkQueryParams,
@@ -29,22 +30,32 @@ export const createLevel = catchAsyncErr(async (req, res) => {
 
   // 2)
   const bundleParams = genBulkQueryParams(req.langTypeID, payload);
-  await addToResBundle(bundleParams);
+  await addToResBundle([bundleParams]);
 
   // 3)
   const queryParams = genLookUpBulk(payload, bundleParams);
-  await addToLookUp(queryParams);
+  await addToLookUp([queryParams]);
 
   // 4) insert into TYPE_VALIDATION t
   const messageKeys = prepareLevelsIds(bundleParams);
 
-  const resIds = await getSetOfLevelsIds(messageKeys);
+  const resIds = await getSetOfLevelsIds([messageKeys]);
 
   const bulk = genBulkTypeValidation(resIds[0], payload);
-  await addToTypeValidation(bulk);
+  await addToTypeValidation([bulk]);
   res.status(StatusCodes.CREATED).json({
-    status: CONSTANTS.MSG.SUCCESS,
-    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_LEVELS
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_LEVELS[req.langType]
+  });
+});
+export const fetchLevels = catchAsyncErr(async (req, res) => {
+  const { category } = req.query;
+  console.log(req);
+  const levelsTypes = await getLevels([+category, +req.langTypeID]);
+  console.log(levelsTypes[0]);
+  res.status(StatusCodes.CREATED).json({
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    data: levelsTypes[0]
   });
 });
 

@@ -32,5 +32,15 @@ export const typeValidationQueries = {
 };
 
 export const resourceBundleQueries = {
-  updateMessageValue: `UPDATE sverp.resource_bundle SET MESSAGE_VALUE = ? WHERE MESSAGE_KEY = ? and LANGUAGE_ID = ?`
+  updateMessageValue: `UPDATE sverp.resource_bundle SET MESSAGE_VALUE = ? WHERE MESSAGE_KEY = ? and LANGUAGE_ID = ?`,
+  selectLevelsByLangAndCategory: `
+      SELECT LANGUAGE_ID ,MESSAGE_VALUE
+      FROM resource_bundle
+      WHERE MESSAGE_KEY 
+      IN(	
+          SELECT UNIQUE_KEY 
+          FROM look_up
+          WHERE CATEGORY =(?) 
+         ) AND LANGUAGE_ID=(?) ;
+    `
 };

@@ -2,31 +2,38 @@ import { StatusCodes } from 'http-status-codes';
 
 import { catchAsyncErr } from '../../general-utils/index.js';
 import { addToResBundle } from '../../../common/shared.services.js';
-import { addToLoUnit } from './record.services.js';
+import { addToLoUnit, updateImage } from './record.services.js';
 import CONSTANTS from '../../../common/messages.js';
 
 // http://domain/api/v1/root-record/
 export const addRootRecord = catchAsyncErr(async (req, res, next) => {
-  await addToResBundle(req.ResBundleParams);
-  await addToLoUnit(req.loUnitParams);
+  await addToResBundle([req.ResBundleParams]);
+  await addToLoUnit([req.loUnitParams]);
 
   res.status(StatusCodes.CREATED).json({
-    status: CONSTANTS.MSG.SUCCESS,
-    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_RECORD
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_RECORD[req.langType]
   });
 });
 export const addChildRecord = catchAsyncErr(async (req, res, next) => {
-  await addToResBundle(req.ResBundleParams);
-  await addToLoUnit(req.loUnitParams);
+  await addToResBundle([req.ResBundleParams]);
+  await addToLoUnit([req.loUnitParams]);
   res.status(StatusCodes.CREATED).json({
-    status: CONSTANTS.MSG.SUCCESS,
-    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_RECORD
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    message: CONSTANTS.MSG.ADD_SUCCESS_NEW_RECORD[req.langType]
   });
 });
 
 // http://domain/api/v1/record/:id
-export const getRecord = catchAsyncErr(async (req, res, next) => {
-  res.status(StatusCodes.OK).json({ status: 'success', data: 'Record get ' });
+export const uploadLocationMap = catchAsyncErr(async (req, res, next) => {
+  const { code } = req.params;
+
+  await updateImage([req.file.filename, code]);
+
+  res.status(StatusCodes.OK).json({
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    message: CONSTANTS.MSG.SUCCESS_IMAGE_UPLOADING[req.langType]
+  });
 });
 // eslint-disable-next-line no-debugger
 // http://domain/api/v1/record/
