@@ -24,7 +24,7 @@ export const init = () => {
 
 export const Query = (query, params) =>
   new Promise((resolve, reject) => {
-    pool.query(query, [params], (err, rows, fields) => {
+    pool.query(query, params, (err, rows, fields) => {
       if (err) {
         reject(err);
         return;

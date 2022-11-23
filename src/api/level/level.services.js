@@ -7,13 +7,32 @@
  * - this module acts aas a linker between the controller and the queries modules
  */
 
-import { lookUpQueries, typeValidationQueries } from './level.queries.js';
+import {
+  lookUpQueries,
+  lookUpUnitQueries,
+  resourceBundleQueries,
+  typeValidationQueries
+} from './level.queries.js';
 import { Query } from '../../config/db.js';
 
 export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
+
+export const getUniqueKey = (params) =>
+  Query(lookUpQueries.getUniqueKey, params);
 
 export const getSetOfLevelsIds = (params) =>
   Query(lookUpQueries.getLevelsSetIds, params);
 
 export const addToTypeValidation = (params) =>
   Query(typeValidationQueries.insert, params);
+
+export const getNumOfRecords = (params) =>
+  Query(lookUpUnitQueries.getNumOfRecords, params);
+
+export const updateResBndlMessageValue = (params) =>
+  Query(resourceBundleQueries.updateMessageValue, params);
+
+export const updateLookUpTitleKeyAndCustomProps = (params) =>
+  Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
+
+export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
