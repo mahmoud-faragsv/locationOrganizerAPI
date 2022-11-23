@@ -1,5 +1,6 @@
 export const languageQueries = {
-  getLanTypeByName: `SELECT ID FROM LANGUAGE  WHERE SHORT_LABEL LIKE ?;`
+  getLanTypeByName: `SELECT ID FROM LANGUAGE  WHERE SHORT_LABEL LIKE ?;`,
+  selectAllLanguages: 'SELECT ID, FULL_LABEL,SHORT_LABEL FROM language;'
 };
 export const bundleResourceQueries = {
   insert:

@@ -14,3 +14,15 @@ export const lookUpQueries = {
 export const typeValidationQueries = {
   insert: `INSERT INTO LO_TYPE_VALIDATION (TYPE_ID, ALLOWED_CHILD_TYPE_ID) VALUES ?;`
 };
+export const bundleResourceQueries = {
+  selectLevelsByLangAndCategory: `
+      SELECT LANGUAGE_ID ,MESSAGE_VALUE
+      FROM resource_bundle
+      WHERE MESSAGE_KEY 
+      IN(	
+          SELECT UNIQUE_KEY 
+          FROM look_up
+          WHERE CATEGORY =(?) 
+         ) AND LANGUAGE_ID=(?) ;
+    `
+};

@@ -1,5 +1,7 @@
 {
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
+  // "parser": "babel-eslint",
+
   "plugins": ["prettier", "import"],
   "rules": {
     "spaced-comment": "off",

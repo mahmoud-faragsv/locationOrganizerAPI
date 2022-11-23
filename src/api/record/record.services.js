@@ -15,3 +15,5 @@ export const getIdByUnitCode = (params) =>
 
 export const getUnitCode = (params) =>
   Query(loUnitQueries.selectUnitCode, params);
+export const updateImage = (params) =>
+  Query(loUnitQueries.updateMapImage, params);

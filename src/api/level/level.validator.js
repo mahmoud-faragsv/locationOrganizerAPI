@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import JoiMessages from '../../../common/Joi.constant.js';
+import CONSTANTS from '../../../common/messages.js';
 import BadRequestErr from '../../errors/badRequest.error.js';
 import { catchAsyncErr } from '../../general-utils/index.js';
 
@@ -32,8 +33,29 @@ export const validateLevelsInputs = catchAsyncErr(async (req, res, next) => {
       .messages(JoiMessages)
   });
   const { error } = schema.validate(req.body);
-  if (error) return next(new BadRequestErr(error.details[0].message));
+  if (error)
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
 
   next();
 });
-export const x = catchAsyncErr(async (req, res) => {});
+export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
+  const schema = Joi.object({
+    category: Joi.string().trim().required().messages(JoiMessages),
+    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
+  });
+  const { error } = schema.validate(req.query);
+  if (error)
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+
+  next();
+});

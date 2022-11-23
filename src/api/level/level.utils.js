@@ -3,7 +3,8 @@ import { genKey } from '../../general-utils/index.js';
 /**
  * -the main goal of this module is to make Our code more clean, elegant, readable,
  *  and modularized
- * -so any function we may need to create to do some stuff related to level route... it will be her
+ * -so any function we may need to create to do some stuff related to level route...
+ *  it will be her
  */
 export const genLookUpBulk = (payload, bundleParams) => {
   const bulk = [];
@@ -20,8 +21,7 @@ export const genLookUpBulk = (payload, bundleParams) => {
   return bulk;
 };
 
-export const genBulkQueryParams = (langID, payload) => {
-  const LANGUAGE_ID = langID;
+export const genBulkQueryParams = (LANGUAGE_ID, payload) => {
   const BUNDLE_KEY = process.env.USERS_DEFINED_BUNDLE_KEY;
 
   const bulk = [];
@@ -35,20 +35,12 @@ export const genBulkQueryParams = (langID, payload) => {
 };
 export const prepareLevelsIds = (arr) => {
   const messageKeys = [];
-  // const levelsTypes = [];
   arr.forEach((element) => {
     messageKeys.push(element[1]);
-    // levelsTypes.push([element[1], element[3]]);
   });
   return messageKeys;
 };
 
-// export const addIdsToMsgTypes = (resIds, levelsTypes) => {
-//   const idsOnly = resIds[0];
-//   levelsTypes.forEach((element, indx) => {
-//     element.push(idsOnly[indx].ID);
-//   });
-// };
 export const genBulkTypeValidation = (ids, payload) => {
   const bulk = [];
   payload.forEach((level) => {

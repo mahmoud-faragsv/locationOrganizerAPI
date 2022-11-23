@@ -3,7 +3,8 @@ export const loUnitQueries = {
   VALUES ?;`,
   selectIdByUnitCode: `SELECT ID FROM LO_UNIT WHERE UNIT_CODE= ? ;
   `,
-  selectUnitCode: ' SELECT UNIT_CODE FROM lo_unit WHERE UNIT_CODE=?;'
+  selectUnitCode: ' SELECT UNIT_CODE FROM lo_unit WHERE UNIT_CODE=?;',
+  updateMapImage: ` UPDATE lo_unit SET IMAGE_VSID = ? WHERE UNIT_CODE = ?;`
 };
 export const typeValidationQueries = {
   selectParentId: `SELECT DISTINCT(t1.TYPE_ID) FROM LO_TYPE_VALIDATION t1  

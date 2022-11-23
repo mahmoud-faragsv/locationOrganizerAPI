@@ -1,7 +1,7 @@
 import CONSTANTS from '../../common/messages.js';
 import OperationalErr from './operational.error.js';
 
-const handleProductionErrs = (res, error) => {
+const handleProductionErrs = (req, res, error) => {
   if (error.name === 'CastError')
     error.message = `invalid ${error.path}: ${error.value}`; // mutate the message with a readable one only in production
 
@@ -12,8 +12,8 @@ const handleProductionErrs = (res, error) => {
     });
   }
   res.status(500).json({
-    status: CONSTANTS.MSG.ERROR,
-    message: CONSTANTS.MSG.INTERNAL_SERVER_ERR
+    status: CONSTANTS.MSG.ERROR[req.langType],
+    message: CONSTANTS.MSG.INTERNAL_SERVER_ERR[req.langType]
   });
 };
 export default handleProductionErrs;
