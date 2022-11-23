@@ -4,7 +4,12 @@ import { addToResBundle } from '../../shared/shared.services.js';
 import {
   addToLookUp,
   addToTypeValidation,
-  getSetOfLevelsIds
+  getFromLookUp,
+  getNumOfRecords,
+  getSetOfLevelsIds,
+  getUniqueKey,
+  updateLookUpTitleKeyAndCustomProps,
+  updateResBndlMessageValue
 } from './unit.services.js';
 import {
   genBulkQueryParams,
@@ -47,12 +52,48 @@ export const getUnit = catchAsyncErr(async (req, res) => {
   res.send('getUnit');
 });
 
-//? http://localhost:3000/api/v1/Unit GET
+//? http://localhost:3000/api/v1/Unit? GET
 export const getAllUnits = catchAsyncErr(async (req, res) => {
-  res.send('getAllUnits');
+  /* the frontend passes a query in the url with a name of OUID that refrences
+  the ID of the Organisation which is found in the OU table */
+  const { ouid, category } = req.query;
+  const { langTypeID } = req.body;
+
+  const NumOfRecordsRes = await getNumOfRecords([category, langTypeID]);
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    message: 'Level names and number of records found successfully',
+    data: {
+      namesAndNumOfRecords: NumOfRecordsRes[0]
+    }
+  });
 });
 
 //? http://localhost:3000/api/v1/unit/:id PATCH
 export const updateUnit = catchAsyncErr(async (req, res) => {
-  res.send('updateUnit Unit');
+  /*
+  {
+    newLevelName: STRING,
+    newLevelColor: STRING,
+    langTypeID: INT
+  }
+  */
+  const { id } = req.params;
+  const { newLevelName, langTypeID, newCustomProps } = req.body;
+
+  const { UNIQUE_KEY: uniqueKey } = await getUniqueKey([id])[0][0];
+
+  await updateResBndlMessageValue([newLevelName, uniqueKey, langTypeID]);
+  await updateLookUpTitleKeyAndCustomProps([newLevelName, newCustomProps, id]);
+
+  const updatedLevel = await getFromLookUp([id])[0][0];
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    message: 'Level has been modified successfully',
+    data: {
+      updatedLevel
+    }
+  });
 });
