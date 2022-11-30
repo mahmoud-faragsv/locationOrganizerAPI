@@ -13,9 +13,11 @@ import {
   resourceBundleQueries,
   typeValidationQueries
 } from './level.queries.js';
-import { commonLookUpQueries } from '../../../common/shared.queries.js';
 import { Query } from '../../config/db.js';
-import { bundleResourceQueries } from '../../../common/shared.queries.js';
+import {
+  bundleResourceQueries,
+  LookUpQueries
+} from '../../../common/shared.queries.js';
 
 export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
 
@@ -37,4 +39,4 @@ export const updateLookUpTitleKeyAndCustomProps = (params) =>
 export const getLevels = (params) =>
   Query(bundleResourceQueries.selectLevelsByLangAndCategory, params);
 
-export const getFromLookUp = (params) => Query(commonLookUpQueries.get, params);
+export const getFromLookUp = (params) => Query(LookUpQueries.get, params);

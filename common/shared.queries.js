@@ -11,6 +11,6 @@ export const bundleResourceQueries = {
     'SELECT MESSAGE_KEY, MESSAGE_VALUE FROM resource_bundle WHERE MESSAGE_VALUE =?;'
 };
 
-export const commonLookUpQueries = {
+export const LookUpQueries = {
   get: `SELECT ID, TITLE_KEY, PARENT_ID, CUSTOM_PROPS FROM sverp.look_up WHERE ID = ?`
 };
