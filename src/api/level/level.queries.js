@@ -8,8 +8,6 @@ export const lookUpQueries = {
   insert: `
      INSERT INTO LOOK_UP ( UNIQUE_KEY, CATEGORY, TITLE_KEY,PARENT_ID, CUSTOM_PROPS) VALUES ?;
     `,
-  get: `SELECT * FROM sverp.look_up WHERE ID = ?`,
-  getUniqueKey: `SELECT UNIQUE_KEY FROM sverp.look_up WHERE ID = ?`,
   getLevelsSetIds: `SELECT ID, TITLE_KEY FROM look_up WHERE UNIQUE_KEY IN (?);`,
   updateTitleKeyAndCustomProps: `UPDATE sverp.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE ID = ?`
 };
@@ -32,5 +30,5 @@ export const typeValidationQueries = {
 };
 
 export const resourceBundleQueries = {
-  updateMessageValue: `UPDATE sverp.resource_bundle SET MESSAGE_VALUE = ? WHERE MESSAGE_KEY = ? and LANGUAGE_ID = ?`
+  updateMessageValue: `UPDATE sverp.resource_bundle SET MESSAGE_VALUE = ? WHERE MESSAGE_KEY = ? AND LANGUAGE_ID = ?`
 };

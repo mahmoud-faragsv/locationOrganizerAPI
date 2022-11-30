@@ -1,8 +1,12 @@
 import express from 'express';
-import { createLevel } from './level.controller.js';
-import { validateLevelsInputs } from './level.validator.js';
+import { createLevel, getAllLevels, updateLevel } from './level.controller.js';
+import {
+  validateLevelsInputs,
+  validateLevelUpdate
+} from './level.validator.js';
 
 const router = express.Router();
 
-router.route('/').post(validateLevelsInputs, createLevel);
+router.route('/').get(getAllLevels).post(validateLevelsInputs, createLevel);
+router.route('/:id').patch(validateLevelUpdate, updateLevel);
 export default router;

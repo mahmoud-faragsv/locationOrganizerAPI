@@ -43,6 +43,14 @@ const CONSTANTS = {
     DUPLICATE_UNIT_CODE: JSON.stringify({
       Eng: 'Unit code must be unique ',
       Arab: 'الكود لايمكن ان يتكرر'
+    }),
+    UPDATE_LEVEL_SUCCESS: JSON.stringify({
+      Eng: 'Level has been updated successfully',
+      Arab: 'تم تغيير بيانات المستوى بنجاح'
+    }),
+    GET_ALL_LEVELS: JSON.stringify({
+      Eng: 'All levels and their number of records has been returned successfully',
+      Arab: 'تم ارجاع جميع المستويات و عدد محتويات كل مستوى'
     })
   }
 };
