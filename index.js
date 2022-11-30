@@ -6,7 +6,7 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 import app from './src/app.js';
-import { init } from './src/config/db.js';
+import { init } from './src/config/connection.js';
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {

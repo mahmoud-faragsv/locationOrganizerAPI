@@ -1,9 +1,10 @@
-import { Query } from '../../config/db.js';
+import { Query } from '../../config/connection.js';
 
 import {
   lookUpQueries,
   loUnitQueries,
-  typeValidationQueries
+  typeValidationQueries,
+  ViewsQueries
 } from './record.queries.js';
 
 export const addToLoUnit = (params) => Query(loUnitQueries.insert, params);
@@ -17,3 +18,6 @@ export const getUnitCode = (params) =>
   Query(loUnitQueries.selectUnitCode, params);
 export const updateImage = (params) =>
   Query(loUnitQueries.updateMapImage, params);
+
+export const searchOnLoUint = (params, queryOptions) =>
+  Query(ViewsQueries.select_from_vw_lo_units(queryOptions), params);

@@ -1,3 +1,7 @@
+/**
+ ** this module holds all the messages which may returned to the client in
+ ** all the desired languages [Arabic, English,....]
+ */
 const CONSTANTS = {
   MSG: {
     UNIT_TYPE: {

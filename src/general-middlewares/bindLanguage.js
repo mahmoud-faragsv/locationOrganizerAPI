@@ -14,6 +14,7 @@ async function getLanguage(lang, req, next) {
       )
     );
   }
+
   const { ID: langTypeID } = resLang[0][0];
 
   req.langTypeID = langTypeID;

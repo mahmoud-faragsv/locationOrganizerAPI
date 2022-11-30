@@ -1,3 +1,5 @@
+import { buildSearchQuery } from './record.utils.js';
+
 export const loUnitQueries = {
   insert: `INSERT INTO LO_UNIT (NAME_KEY,UNIT_CODE, PARENT_ID, TYPE, OUID,IMAGE_VSID, ADDED_BY,UPDATED_BY,ADD_TIME,UPDATE_TIME)
   VALUES ?;`,
@@ -16,4 +18,8 @@ export const typeValidationQueries = {
 export const lookUpQueries = {
   selectId: ` SELECT ID FROM look_up WHERE UNIQUE_KEY = ?;
   `
+};
+
+export const ViewsQueries = {
+  select_from_vw_lo_units: buildSearchQuery
 };

@@ -11,4 +11,5 @@ router
   .route('/')
   .post(validateLevelsInputs, createLevel)
   .get(validateGetLevelsQuery, fetchLevels);
+
 export default router;

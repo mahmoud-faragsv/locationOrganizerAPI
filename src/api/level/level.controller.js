@@ -5,52 +5,62 @@ import catchAsyncErr from '../../general-utils/catchAsyncErr.js';
 import {
   addToLookUp,
   addToTypeValidation,
-  getSetOfLevelsIds,
   getFromLookUp,
   getNumOfRecords,
   getUniqueKey,
   updateLookUpTitleKeyAndCustomProps,
   updateResBndlMessageValue,
-  getLevels
+  getLevels,
+  getLevelsIDs
 } from './level.services.js';
 import {
-  genBulkQueryParams,
   genLookUpBulk,
   genBulkTypeValidation,
-  prepareLevelsIds
+  genResourceBundleBulk,
+  extractMessageKeys
 } from './level.utils.js';
 
-//? http://localhost:3000/api/v1/level POST
-export const createLevel = catchAsyncErr(async (req, res) => {
-  /*
-   * payload:[levelOb1,levelObject2.....]
-   * lang: string in Arab, Eng......
-   */
-  const { payload } = req.body;
+/**
+ * @async  - level route handler(controller)
+ * @function  responsible for creating the levels for the first time when the client initiate the
+ * application with his own levels
+ */
 
-  // 2)
-  const bundleParams = genBulkQueryParams(req.langTypeID, payload);
-  await addToResBundle([bundleParams]);
+export const createLevel = catchAsyncErr(async (req, res, next) => {
+  /**
+   * @type {[{type:string, parent:[string | null], color: string}]}
+   */
+  // eslint-disable-next-line prefer-destructuring
+  const payload = req.body.payload;
+
+  // 1)
+  const resourceBundleBulk = genResourceBundleBulk(req.langTypeID, payload);
+  await addToResBundle([resourceBundleBulk]);
 
   // 3)
-  const queryParams = genLookUpBulk(payload, bundleParams);
-  await addToLookUp([queryParams]);
+  const levelsLookUpBulk = genLookUpBulk(payload, resourceBundleBulk);
+  await addToLookUp([levelsLookUpBulk]);
 
-  // 4) insert into TYPE_VALIDATION t
-  const messageKeys = prepareLevelsIds(bundleParams);
+  // 4)
+  const messageKeys = extractMessageKeys(resourceBundleBulk);
 
-  const resIds = await getSetOfLevelsIds([messageKeys]);
+  const levelsIDs = await getLevelsIDs([messageKeys]);
 
-  const bulk = genBulkTypeValidation(resIds[0], payload);
-  await addToTypeValidation([bulk]);
+  const typeValidationBulk = genBulkTypeValidation(levelsIDs[0], payload);
+  await addToTypeValidation([typeValidationBulk]);
+
   res.status(StatusCodes.CREATED).json({
     status: CONSTANTS.MSG.SUCCESS[req.langType],
     message: CONSTANTS.MSG.ADD_SUCCESS_NEW_LEVELS[req.langType]
   });
 });
-export const fetchLevels = catchAsyncErr(async (req, res) => {
+/**
+ * @async  level route handler(controller)
+ * @function  responsible for fetching all the levels from the db
+ * @param {Object} req - http_request
+ */
+export const fetchLevels = catchAsyncErr(async (req, res, next) => {
   const { category } = req.query;
-  console.log(req);
   const levelsTypes = await getLevels([+category, +req.langTypeID]);
   console.log(levelsTypes[0]);
   res.status(StatusCodes.CREATED).json({
@@ -59,13 +69,11 @@ export const fetchLevels = catchAsyncErr(async (req, res) => {
   });
 });
 
-//? http://localhost:3000/api/v1/unit/:id GET
-export const getUnit = catchAsyncErr(async (req, res) => {
+export const getUnit = catchAsyncErr(async (req, res, next) => {
   res.send('getUnit');
 });
 
-//? http://localhost:3000/api/v1/Unit? GET
-export const getAllUnits = catchAsyncErr(async (req, res) => {
+export const getAllUnits = catchAsyncErr(async (req, res, next) => {
   /* the frontend passes a query in the url with a name of OUID that refrences
   the ID of the Organisation which is found in the OU table */
   const { ouid, category } = req.query;
@@ -83,7 +91,7 @@ export const getAllUnits = catchAsyncErr(async (req, res) => {
 });
 
 //? http://localhost:3000/api/v1/unit/:id PATCH
-export const updateUnit = catchAsyncErr(async (req, res) => {
+export const updateUnit = catchAsyncErr(async (req, res, next) => {
   /*
   {
     newLevelName: STRING,

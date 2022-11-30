@@ -13,17 +13,37 @@ import {
   resourceBundleQueries,
   typeValidationQueries
 } from './level.queries.js';
-import { Query } from '../../config/db.js';
+import { Query } from '../../config/connection.js';
 import { bundleResourceQueries } from '../../../common/shared.queries.js';
 
+/**
+ * @async
+ * @function  responsible for saving the levels into the lookup table (saving the message_key not
+ *   client levels name )
+ * @param {[[UNIQUE_KEY: string, CATEGORY: number, TITLE_KEY: string,PARENT_ID:number ,CUSTOM_PROPS:{color:string} ]]} params - the bulk(group of rows 'access db once') which needed to be injected in the query before access db
+ * @returns {Promise<[[rows],[fields]]>}- array of array holds the result of the db query
+ */
 export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
 
 export const getUniqueKey = (params) =>
   Query(lookUpQueries.getUniqueKey, params);
 
-export const getSetOfLevelsIds = (params) =>
+/**
+ * @async
+ * @function  responsible for selecting all matched IDs from lookup table based on set of message_keys
+ * @param {[string]} params - array of message_keys
+ * @returns {Promise<[[{ID:number,TITLE_KEY: string }],[fields]]>}- array of array holds the result of the db query
+ */
+export const getLevelsIDs = (params) =>
   Query(lookUpQueries.getLevelsSetIds, params);
 
+/**
+ * @async
+ * @function  responsible for inserting the relations between the levels with each others
+ * @param {[[{TYPE_ID: number, ALLOWED_CHILD_TYPE_ID: number}]]} params - array of arrays each row describe a db row
+ * in the type_validation table
+ * @returns {Promise<[[rows],[fields]]>}- array of array holds the result of the db query
+ */
 export const addToTypeValidation = (params) =>
   Query(typeValidationQueries.insert, params);
 
