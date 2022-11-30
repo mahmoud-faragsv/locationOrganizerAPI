@@ -63,6 +63,14 @@ const CONSTANTS = {
     SUCCESS_IMAGE_UPLOADING: {
       Eng: 'Image uploaded successfully',
       Arab: 'تم رفع الخريطة بنجاح'
+    },
+    UPDATE_LEVEL_SUCCESS: {
+      Eng: 'Level has been updated successfully',
+      Arab: 'تم تغيير بيانات المستوى بنجاح'
+    },
+    GET_ALL_LEVELS: {
+      Eng: 'All levels and their number of records has been returned successfully',
+      Arab: 'تم ارجاع جميع المستويات و عدد محتويات كل مستوى'
     }
   }
 };

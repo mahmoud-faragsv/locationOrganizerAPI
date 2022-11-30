@@ -8,7 +8,6 @@ import {
   getSetOfLevelsIds,
   getFromLookUp,
   getNumOfRecords,
-  getUniqueKey,
   updateLookUpTitleKeyAndCustomProps,
   updateResBndlMessageValue,
   getLevels
@@ -64,48 +63,55 @@ export const getUnit = catchAsyncErr(async (req, res) => {
   res.send('getUnit');
 });
 
-//? http://localhost:3000/api/v1/Unit? GET
-export const getAllUnits = catchAsyncErr(async (req, res) => {
+//? http://localhost:3000/api/v1/level?category=&ouid= GET
+export const getAllLevels = catchAsyncErr(async (req, res) => {
   /* the frontend passes a query in the url with a name of OUID that refrences
   the ID of the Organisation which is found in the OU table */
   const { ouid, category } = req.query;
-  const { langTypeID } = req.body;
+  const { langTypeID, langType } = req;
 
   const NumOfRecordsRes = await getNumOfRecords([category, langTypeID]);
 
   res.status(StatusCodes.OK).json({
-    status: 'success',
-    message: 'Level names and number of records found successfully',
+    status: CONSTANTS.MSG.SUCCESS[langType],
+    message: CONSTANTS.MSG.GET_ALL_LEVELS[langType],
     data: {
       namesAndNumOfRecords: NumOfRecordsRes[0]
     }
   });
 });
 
-//? http://localhost:3000/api/v1/unit/:id PATCH
-export const updateUnit = catchAsyncErr(async (req, res) => {
-  /*
-  {
-    newLevelName: STRING,
-    newLevelColor: STRING,
-    langTypeID: INT
-  }
-  */
-  const { id } = req.params;
-  const { newLevelName, langTypeID, newCustomProps } = req.body;
+//? http://localhost:3000/api/v1/level/:id PATCH
+export const updateLevel = catchAsyncErr(async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const { newLevelName, newCustomProps } = req.body;
+  const { langTypeID, langType } = req;
 
-  const { UNIQUE_KEY: uniqueKey } = await getUniqueKey([id])[0][0];
+  const oldLevelRes = await getFromLookUp([id]);
+  const {
+    UNIQUE_KEY: uniqueKey,
+    TITLE_KEY: oldLevelName,
+    CUSTOM_PROPS: oldCustomProps
+  } = oldLevelRes[0][0];
 
-  await updateResBndlMessageValue([newLevelName, uniqueKey, langTypeID]);
-  await updateLookUpTitleKeyAndCustomProps([newLevelName, newCustomProps, id]);
+  await updateResBndlMessageValue([
+    newLevelName || oldLevelName,
+    uniqueKey,
+    langTypeID
+  ]);
+  await updateLookUpTitleKeyAndCustomProps([
+    newLevelName || oldLevelName,
+    newCustomProps || oldCustomProps,
+    id
+  ]);
 
-  const updatedLevel = await getFromLookUp([id])[0][0];
+  const updatedLevel = await getFromLookUp([id]);
 
   res.status(StatusCodes.OK).json({
-    status: 'success',
-    message: 'Level has been modified successfully',
+    status: CONSTANTS.MSG.SUCCESS[langType],
+    message: CONSTANTS.MSG.UPDATE_LEVEL_SUCCESS[langType],
     data: {
-      updatedLevel
+      updatedLevel: updatedLevel[0][0]
     }
   });
 });

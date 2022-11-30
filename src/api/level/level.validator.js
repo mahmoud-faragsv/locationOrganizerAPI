@@ -59,3 +59,18 @@ export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
 
   next();
 });
+
+export const validateLevelUpdate = catchAsyncErr(async (req, res, next) => {
+  const schema = Joi.object({
+    newLevelName: Joi.string().min(1).messages(JoiMessages),
+    newCustomProps: Joi.object({
+      color: Joi.string().required().min(0).max(16).messages(JoiMessages)
+    }).messages(JoiMessages)
+  });
+  const { error } = schema.validate(req.body);
+  if (error) return next(new BadRequestErr(error.details[0].message));
+
+  next();
+});
+
+export const x = catchAsyncErr(async (req, res) => {});
