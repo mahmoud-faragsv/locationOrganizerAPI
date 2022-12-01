@@ -25,10 +25,9 @@ import {
  * @function  responsible for creating the levels for the first time when the client initiate the
  * application with his own levels
  */
-
 export const createLevel = catchAsyncErr(async (req, res, next) => {
   /**
-   * @type {[{type:string, parent:[string | null], color: string}]}
+   * @type {[{type:string, parent:[string | null], color: string}]} - the client input which holds the levels data
    */
   // eslint-disable-next-line prefer-destructuring
   const payload = req.body.payload;
@@ -60,9 +59,15 @@ export const createLevel = catchAsyncErr(async (req, res, next) => {
  * @param {Object} req - http_request
  */
 export const fetchLevels = catchAsyncErr(async (req, res, next) => {
-  const { category } = req.query;
-  const levelsTypes = await getLevels([+category, +req.langTypeID]);
-  console.log(levelsTypes[0]);
+  // const { category } = req.query;
+
+  /**
+   * @type {number} -  provided client category value
+   */
+  // eslint-disable-next-line prefer-destructuring
+  const category = +req.query.category;
+
+  const levelsTypes = await getLevels([category, +req.langTypeID]);
   res.status(StatusCodes.CREATED).json({
     status: CONSTANTS.MSG.SUCCESS[req.langType],
     data: levelsTypes[0]

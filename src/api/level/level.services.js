@@ -57,5 +57,11 @@ export const updateLookUpTitleKeyAndCustomProps = (params) =>
   Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
 
 export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
+/**
+ * @async
+ * @function  responsible for fetching all the client levels(categories)
+ * @param {[CATEGORY: number, LANGUAGE_ID: number]} params
+ * @returns {Promise<[[{LANGUAGE_ID: number ,MESSAGE_VALUE: string}],[fields]]>}- array of arrays holds the result of the db query
+ */
 export const getLevels = (params) =>
   Query(bundleResourceQueries.selectLevelsByLangAndCategory, params);

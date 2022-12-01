@@ -6,7 +6,6 @@ let pool;
 /**
  * generates pool connection to be used throughout the app
  */
-console.log(ENV);
 export const init = () => {
   try {
     pool = createPool({
@@ -15,7 +14,7 @@ export const init = () => {
       user: ENV.DB_USER,
       password: ENV.DB_PASSWORD,
       database: ENV.DB_NAME,
-      port: ENV.DB_PORT
+      port: +ENV.DB_PORT
     });
     console.debug(`MySql Adapter Pool generated successfully...`);
   } catch (err) {
