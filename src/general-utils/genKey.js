@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 
 /**
- * @function - a factory which generating random key with specific length
+ * @function - a factory func responsible for  generating random key with specific length
  * @param {number} length - describe the length of the key
  * @returns {string}  the generated key is a string value
  */
