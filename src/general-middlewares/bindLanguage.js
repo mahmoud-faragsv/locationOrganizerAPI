@@ -14,12 +14,20 @@ async function getLanguage(lang, req, next) {
       )
     );
   }
+
   const { ID: langTypeID } = resLang[0][0];
 
   req.langTypeID = langTypeID;
   req.langType = lang.trim();
   next();
 }
+/**
+ * @function a middleware  func  responsible for detecting the request language type from
+ *  the beginning of the request life cycle.
+ * it inject 2 properties into the request object
+ * 1) req.langTypeID: number --> the detected language ID in the DB
+ * 2) req.langType: string --> just a short_label for the provided language, ex:'Eng' , 'Arab
+ */
 const bindLangInReq = catchAsyncErr(async (req, res, next) => {
   const { lang } = req.body;
   const { lang: lngtype } = req.query;

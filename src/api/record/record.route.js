@@ -12,7 +12,8 @@ import {
   getAllRecords,
   updateRecord,
   addRootRecord,
-  uploadLocationMap
+  uploadLocationMap,
+  search
 } from './record.controller.js';
 import { ValidateRootReq, ValidateChildReq } from './record.validator.js';
 
@@ -35,6 +36,7 @@ router
     addRootRecord
   );
 
+router.route('/search').post(search);
 router
   .route('/:code')
   .post(uploadSingleMap, resizeUploadedMap, uploadLocationMap)

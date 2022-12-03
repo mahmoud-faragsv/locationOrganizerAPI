@@ -75,6 +75,7 @@ export const buildResBundleParams = catchAsyncErr(async (req, res, next) => {
   } = req.body;
 
   const MESSAGE_KEY = genKey(+process.env.RES_BUNDLE_MESSAGE_KEY_SIZE);
+
   const ResBundleParams = [
     [
       req.langTypeID,
