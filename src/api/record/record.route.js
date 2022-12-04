@@ -18,6 +18,7 @@ import {
 import { ValidateRootReq, ValidateChildReq } from './record.validator.js';
 
 const router = express.Router();
+
 router.route('/').get(getAllRecords);
 router
   .route('/child-record')
@@ -35,8 +36,15 @@ router
     buildLoUnitQueryParams,
     addRootRecord
   );
-
-router.route('/search').post(search);
+// router.use((req, res) => {
+//   console.log(req.query);
+//   console.log(req.originalUrl);
+// });
+router.route('/search').get(search);
+// router.route('/search').get((req, res) => {
+//   console.log(req.query);
+//   console.log(req.originalUrl);
+// });
 router
   .route('/:code')
   .post(uploadSingleMap, resizeUploadedMap, uploadLocationMap)

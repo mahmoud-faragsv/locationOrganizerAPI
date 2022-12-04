@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(bindLangInReq);
+console.log('middleware');
 
 app.use('/api/v1/level', levelRouter);
 app.use('/api/v1/languages', languageRouter);

@@ -95,6 +95,7 @@ export const deleteRecord = catchAsyncErr(async (req, res, next) => {
 });
 
 export const search = catchAsyncErr(async (req, res) => {
+  console.log(req.query);
   /**
    * @type {[ADD_TIME:Date,TYPE: string ]} - describe the search options keys
    */
@@ -102,11 +103,7 @@ export const search = catchAsyncErr(async (req, res) => {
   /**
    * @type {[Date, string ]} - describe the search options values
    */
-  let queryOptionsValues = [];
-
-  if (req.query.ADD_TIME) queryOptionsValues = req.query.ADD_TIME.split('/');
-
-  if (req.query.TYPE) queryOptionsValues.unshift(req.query.TYPE);
+  const queryOptionsValues = Object.values(req.query);
 
   const resQ = await searchOnLoUint(queryOptionsValues, queryOptionsKeys);
   res.status(StatusCodes.CREATED).json({

@@ -11,14 +11,30 @@ export const buildSearchQuery = (options) => {
   if (options.length === 1 && options.includes('TYPE'))
     return 'SELECT * FROM vw_lo_units WHERE TYPE = ? ;';
 
-  if (options.length === 1 && options.includes('ADD_TIME'))
+  if (options.length === 1 && options.includes('ADD_TIME_FROM'))
+    return `SELECT * FROM vw_lo_units WHERE ADD_TIME between  ? AND now();`;
+
+  if (
+    options.length === 2 &&
+    options.includes('ADD_TIME_FROM') &&
+    options.includes('ADD_TIME_TO')
+  )
     return 'SELECT * FROM vw_lo_units WHERE ADD_TIME between  ? AND ?;';
   if (
     options.length === 2 &&
     options.includes('TYPE') &&
-    options.includes('ADD_TIME')
+    options.includes('ADD_TIME_FROM')
   )
-    return 'SELECT * FROM vw_lo_units WHERE TYPE = ? AND ADD_TIME between  ? AND ? ;';
+    return `SELECT * FROM vw_lo_units WHERE TYPE = ? AND ADD_TIME  between  ? AND now()`;
+  if (
+    options.length === 3 &&
+    options.includes('TYPE') &&
+    options.includes('ADD_TIME_FROM') &&
+    options.includes('ADD_TIME_TO')
+  )
+    return 'SELECT * FROM vw_lo_units WHERE TYPE = ? AND ADD_TIME BETWEEN ? AND ?;';
+
+  return null;
 };
 export const addToResBundleAndLOUnit = async (newResBundleRow, newRecord) => {
   /**
