@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import 'express-async-errors';
@@ -15,6 +16,7 @@ import {
 import NotFoundErr from './errors/notFound.error.js';
 // import dotenv from 'dotenv';
 const app = express();
+
 app.get('/', (req, res) => {
   res.status(200).send('Server is up now ');
 });
@@ -27,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use(cors());
 app.use(express.json());
 app.use(bindLangInReq);
 console.log('middleware');

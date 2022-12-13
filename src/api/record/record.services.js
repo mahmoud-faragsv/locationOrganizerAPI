@@ -1,5 +1,6 @@
 import { Query } from '../../config/connection.js';
 
+// eslint-disable-next-line import/no-cycle
 import {
   lookUpQueries,
   loUnitQueries,
