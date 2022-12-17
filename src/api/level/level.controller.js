@@ -11,7 +11,8 @@ import {
   updateLookUpTitleKeyAndCustomProps,
   updateResBndlMessageValue,
   getLevels,
-  getLevelsIDs
+  getLevelsIDs,
+  getRootLevelType
 } from './level.services.js';
 import {
   genLookUpBulk,
@@ -120,5 +121,15 @@ export const updateUnit = catchAsyncErr(async (req, res, next) => {
     data: {
       updatedLevel
     }
+  });
+});
+
+export const GetRootType = catchAsyncErr(async (req, res, next) => {
+  const { OUID } = req.query;
+  const queryRes = await getRootLevelType(+OUID);
+  console.log(queryRes[0]);
+  res.status(StatusCodes.OK).json({
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    data: queryRes[0]
   });
 });

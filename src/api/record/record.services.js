@@ -34,5 +34,7 @@ export const updateImage = (params) =>
  * @param {{[Date, string ]}} queryOptions
  * @returns {Promise<[[{ID: number, PARENT_ID: number, NAME: string, NAME_PATH: string, TYPE_ID: number, TYPE: string, CUSTOM_PROPS: { color:string},LANGUAGE_ID: number, OUID: number,UNIT_CODE: string, ADD_TIME: Date}],[fields]]>}- array of array holds the result of the db query
  */
-export const searchOnLoUint = (params, queryOptions) =>
-  Query(ViewsQueries.select_from_vw_lo_units(queryOptions), params);
+export const searchOnLoUint = (params, queryOptions) => {
+  console.log(ViewsQueries.select_from_vw_lo_units(queryOptions));
+  return Query(ViewsQueries.select_from_vw_lo_units(queryOptions), params);
+};

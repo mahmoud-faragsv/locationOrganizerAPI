@@ -7,14 +7,14 @@ process.on('uncaughtException', (err) => {
 });
 import app from './src/app.js';
 import { init } from './src/config/connection.js';
-import ENV from './src/config/environments.js';
+// import ENV from './src/config/environments.js';
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   console.log(`server up on: ${PORT}....`);
   init();
 });
-console.log(ENV);
+// console.log(ENV);
 // handling unhandled rejections errors
 process.on('unhandledRejection', (err) => {
   // console.log(err);

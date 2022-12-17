@@ -12,7 +12,9 @@ export const lookUpQueries = {
   get: `SELECT * FROM ${DEV.DB_NAME}.look_up WHERE ID = ?`,
   getUniqueKey: `SELECT UNIQUE_KEY FROM ${DEV.DB_NAME}.look_up WHERE ID = ?`,
   getLevelsSetIds: `SELECT ID, TITLE_KEY FROM look_up WHERE UNIQUE_KEY IN (?);`,
-  updateTitleKeyAndCustomProps: `UPDATE ${DEV.DB_NAME}.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE ID = ?`
+  updateTitleKeyAndCustomProps: `UPDATE ${DEV.DB_NAME}.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE ID = ?`,
+  selectRootLevelType: `SELECT DISTINCT TITLE_KEY AS MESSAGE_VALUE FROM lo_unit AS u 
+  JOIN look_up AS l WHERE u.PARENT_ID IS NULL AND  u.type = l.ID AND   u.OUID= ?; `
 };
 
 // NOTE: add a condition which is OUID = ? after the modification of the schema

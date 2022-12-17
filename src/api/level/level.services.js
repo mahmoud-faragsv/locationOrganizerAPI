@@ -65,3 +65,6 @@ export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
  */
 export const getLevels = (params) =>
   Query(bundleResourceQueries.selectLevelsByLangAndCategory, params);
+
+export const getRootLevelType = (params) =>
+  Query(lookUpQueries.selectRootLevelType, params);
