@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
     DB_NAME: process.env.DB_NAME_DEV
   };
 }
-if (process.env.NODE_ENV === 'Production')
+if (process.env.NODE_ENV === 'Production') {
   ENV = {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     ...ENV,
@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'Production')
     DB_PASSWORD: process.env.DB_PASSWORD_PROD,
     DB_NAME: process.env.DB_NAME_PROD
   };
-
+}
 if (process.env.NODE_ENV === 'testing') {
   ENV = {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax

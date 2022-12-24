@@ -6,6 +6,7 @@ let pool;
 /**
  * generates pool connection to be used throughout the app
  */
+
 export const init = () => {
   try {
     pool = createPool({

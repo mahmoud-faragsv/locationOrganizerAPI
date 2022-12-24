@@ -118,18 +118,15 @@ export const updateUnit = catchAsyncErr(async (req, res, next) => {
   res.status(StatusCodes.OK).json({
     status: 'success',
     message: 'Level has been modified successfully',
-    data: {
-      updatedLevel
-    }
+    data: { updatedLevel }
   });
 });
 
 export const GetRootType = catchAsyncErr(async (req, res, next) => {
   const { OUID } = req.query;
   const queryRes = await getRootLevelType(+OUID);
-  console.log(queryRes[0]);
-  res.status(StatusCodes.OK).json({
-    status: CONSTANTS.MSG.SUCCESS[req.langType],
-    data: queryRes[0]
-  });
+
+  res
+    .status(StatusCodes.OK)
+    .json({ status: CONSTANTS.MSG.SUCCESS[req.langType], data: queryRes[0] });
 });

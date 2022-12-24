@@ -54,6 +54,7 @@ export const resizeUploadedMap = catchAsyncErr(async (req, res, next) => {
         CONSTANTS.MSG.FAIL[req.langType]
       )
     );
+
   req.file.filename = `map-${req.params.code}-${Date.now()}.jpeg`;
   try {
     await sharp(req.file.buffer)
