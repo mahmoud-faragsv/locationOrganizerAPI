@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
     DB_NAME: process.env.DB_NAME_DEV
   };
 }
-if (process.env.NODE_ENV === 'Production') {
+if (process.env.NODE_ENV === 'production') {
   ENV = {
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     ...ENV,
