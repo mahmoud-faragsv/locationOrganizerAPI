@@ -12,13 +12,17 @@ import {
   updateResBndlMessageValue,
   getLevels,
   getLevelsIDs,
-  getRootLevelType
+  getRootLevelType,
+  getAllLevelsIds,
+  getAllAllowedChildrenIds,
+  getRootLevel
 } from './level.services.js';
 import {
   genLookUpBulk,
   genBulkTypeValidation,
   genResourceBundleBulk,
-  extractMessageKeys
+  extractMessageKeys,
+  filterRootLevelId
 } from './level.utils.js';
 
 /**
@@ -68,10 +72,21 @@ export const fetchLevels = catchAsyncErr(async (req, res, next) => {
   // eslint-disable-next-line prefer-destructuring
   const category = +req.query.category;
 
+  const getLvlsIDs = await getAllLevelsIds(category);
+  const getAllowedChildIds = await getAllAllowedChildrenIds(category);
+
+  const rootLevelId = filterRootLevelId(getLvlsIDs[0], getAllowedChildIds[0]);
+  const rootLevelRow = await getRootLevel([rootLevelId, +req.langTypeID]);
+
   const levelsTypes = await getLevels([category, +req.langTypeID]);
+
+  const filteredLevels = levelsTypes[0].filter(
+    (level) => level.MESSAGE_VALUE !== rootLevelRow[0][0].MESSAGE_VALUE
+  );
+
   res.status(StatusCodes.CREATED).json({
     status: CONSTANTS.MSG.SUCCESS[req.langType],
-    data: levelsTypes[0]
+    data: filteredLevels
   });
 });
 

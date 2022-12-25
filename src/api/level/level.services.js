@@ -14,7 +14,7 @@ import {
   typeValidationQueries
 } from './level.queries.js';
 import { Query } from '../../config/connection.js';
-import { bundleResourceQueries } from '../../../common/shared.queries.js';
+import { bundleResourceQueries as sharedRescBundle } from '../../../common/shared.queries.js';
 
 /**
  * @async
@@ -64,7 +64,16 @@ export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
  * @returns {Promise<[[{LANGUAGE_ID: number ,MESSAGE_VALUE: string}],[fields]]>}- array of arrays holds the result of the db query
  */
 export const getLevels = (params) =>
-  Query(bundleResourceQueries.selectLevelsByLangAndCategory, params);
+  Query(sharedRescBundle.selectLevelsByLangAndCategory, params);
 
 export const getRootLevelType = (params) =>
   Query(lookUpQueries.selectRootLevelType, params);
+
+export const getAllLevelsIds = (params) =>
+  Query(lookUpUnitQueries.selectAllLevelsIds, params);
+
+export const getAllAllowedChildrenIds = (params) =>
+  Query(typeValidationQueries.selectAllAllowedChildrenIDs, params);
+
+export const getRootLevel = (params) =>
+  Query(resourceBundleQueries.selectRootLevel, params);
