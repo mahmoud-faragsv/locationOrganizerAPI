@@ -11,7 +11,8 @@ import {
   lookUpQueries,
   lookUpUnitQueries,
   resourceBundleQueries,
-  typeValidationQueries
+  typeValidationQueries,
+  loUnitQueries
 } from './level.queries.js';
 import { Query } from '../../config/connection.js';
 import { bundleResourceQueries } from '../../../common/shared.queries.js';
@@ -65,3 +66,6 @@ export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
  */
 export const getLevels = (params) =>
   Query(bundleResourceQueries.selectLevelsByLangAndCategory, params);
+
+export const getAllRecordsAndSort = (params, queryOptions) =>
+  Query(loUnitQueries.getAllRecordsAndSortIt(queryOptions), params);

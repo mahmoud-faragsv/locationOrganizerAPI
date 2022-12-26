@@ -1,10 +1,19 @@
 import { StatusCodes } from 'http-status-codes';
 
 import { catchAsyncErr } from '../../general-utils/index.js';
-import { addToLoUnit, searchOnLoUint, updateImage } from './record.services.js';
+import {
+  addToLoUnit,
+  searchOnLoUint,
+  updateImage,
+  getRecordInfo,
+  recordGetAll,
+  updateCodeAndImage,
+  updateName
+} from './record.services.js';
 import CONSTANTS from '../../../common/messages.js';
 // import { addToResBundleAndLOUnit } from './record.utils.js';
 import { addToResBundle } from '../../../common/shared.services.js';
+import { deleteImageInPublic } from './record.utils.js';
 
 /**
  * record-route handler responsible for inserting  root records
@@ -71,20 +80,43 @@ export const uploadLocationMap = catchAsyncErr(async (req, res, next) => {
     message: CONSTANTS.MSG.SUCCESS_IMAGE_UPLOADING[req.langType]
   });
 });
-// eslint-disable-next-line no-debugger
-// http://domain/api/v1/record/
-export const getAllRecords = catchAsyncErr(async (req, res, next) => {
+
+// http://domain/api/v1/record/:code?ouid&lang GET
+export const getRecord = catchAsyncErr(async (req, res, next) => {
+  const { langTypeID, langType, ouid } = req;
+  const { code } = req.params;
+
+  const recordRes = await getRecordInfo([code, ouid, langTypeID]);
+
   res.status(StatusCodes.OK).json({
-    status: 'success',
-    data: 'contents'
+    status: CONSTANTS.MSG.SUCCESS[langType],
+    message: CONSTANTS.MSG.GET_RECORD_SUCCESS[langType],
+    data: {
+      record: recordRes[0][0]
+    }
   });
 });
 
 // http://domain/api/v1/record/:id
 export const updateRecord = catchAsyncErr(async (req, res, next) => {
-  res
-    .status(200)
-    .json({ status: 'success', message: 'record Updated successfully' });
+  const { langTypeID, langType, ouid } = req;
+  const { code } = req.params;
+  const { newRecordName, newUnitCode } = req.body;
+
+  const record = await recordGetAll([code]);
+  const { NAME_KEY } = record[0][0];
+
+  // deleteImageInPublic(code);
+  if (newRecordName) await updateName([newRecordName, NAME_KEY, langTypeID]);
+  if (newUnitCode) await updateCodeAndImage([newUnitCode, code, ouid]);
+
+  const updatedRecord = await recordGetAll([newUnitCode]);
+
+  res.status(StatusCodes.OK).json({
+    status: CONSTANTS.MSG.SUCCESS[langType],
+    message: CONSTANTS.MSG.RECORD_UPDATE_SUCCESS[langType],
+    data: updatedRecord[0][0]
+  });
 });
 
 // http://domain/api/v1/record/:id

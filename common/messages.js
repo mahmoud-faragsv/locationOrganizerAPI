@@ -72,9 +72,25 @@ const CONSTANTS = {
       Eng: 'Level has been updated successfully',
       Arab: 'تم تغيير بيانات المستوى بنجاح'
     },
-    GET_ALL_LEVELS: {
+    GET_ALL_LEVELS_SUCCESS: {
       Eng: 'All levels and their number of records has been returned successfully',
-      Arab: 'تم ارجاع جميع المستويات و عدد محتويات كل مستوى'
+      Arab: 'تم العثور علي جميع المستويات و عدد محتويات كل مستوى'
+    },
+    GET_ALL_RECORDS_SUCCESS: {
+      Eng: 'All records has been returned successfully',
+      Arab: 'تم العثور علي جميع الاغراض'
+    },
+    GET_RECORD_SUCCESS: {
+      Eng: 'Record has been returned successfully',
+      Arab: 'تم العثور على الغرض بنجاح'
+    },
+    DOES_NOT_EXIST: {
+      Eng: 'What you are looking for does not exist',
+      Arab: 'لم يتم العثور علي ما تبحث عليه'
+    },
+    RECORD_UPDATE_SUCCESS: {
+      Eng: 'Record has been updated successfully',
+      Arab: 'تم تغيير بيانات الغرض بنجاح'
     }
   }
 };

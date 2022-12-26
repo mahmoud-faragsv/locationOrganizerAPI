@@ -93,3 +93,24 @@ export const genBulkTypeValidation = (levelsIDs, payload) => {
 
   return bulk;
 };
+
+export const recordSortBy = (sortType) => {
+  sortType = sortType.split(',');
+  const columnName = sortType[0].toUpperCase();
+  if (sortType[1] === '-1')
+    return `SELECT parent.ID, parent.UNIT_CODE AS RECORD_CODE, resource_bundle.MESSAGE_VALUE AS RECORD_NAME, DATE_FORMAT(parent.ADD_TIME, '%d/%m/%Y') AS CREATED_DATE, COUNT(units.ID) AS NUMBER_OF_CHILDREN FROM lo_unit AS units 
+    RIGHT JOIN lo_unit AS parent ON parent.ID = units.PARENT_ID 
+    LEFT JOIN resource_bundle 
+    ON parent.NAME_KEY = resource_bundle.MESSAGE_KEY 
+    WHERE parent.TYPE = ? AND resource_bundle.LANGUAGE_ID = ? AND parent.OUID = ? 
+    GROUP BY parent.ID 
+    ORDER BY ${columnName} DESC;`;
+  if (sortType[1] === '1')
+    return `SELECT parent.ID, parent.UNIT_CODE AS RECORD_CODE, resource_bundle.MESSAGE_VALUE AS RECORD_NAME, DATE_FORMAT(parent.ADD_TIME, '%d/%m/%Y') AS CREATED_DATE, COUNT(units.ID) AS NUMBER_OF_CHILDREN FROM lo_unit AS units 
+    RIGHT JOIN lo_unit AS parent ON parent.ID = units.PARENT_ID 
+    LEFT JOIN resource_bundle 
+    ON parent.NAME_KEY = resource_bundle.MESSAGE_KEY 
+    WHERE parent.TYPE = ? AND resource_bundle.LANGUAGE_ID = ? AND parent.OUID = ? 
+    GROUP BY parent.ID 
+    ORDER BY ${columnName} ASC;`;
+};

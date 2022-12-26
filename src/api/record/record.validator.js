@@ -49,3 +49,47 @@ export const ValidateChildReq = (req, res, next) => {
 
   next();
 };
+
+export const validateGetRecordQuery = (req, res, next) => {
+  const schemaQuery = Joi.object({
+    ouid: Joi.string()
+      .trim()
+      .required()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[^A-Za-z_]*$/))
+      .messages(JoiMessages),
+    lang: Joi.string()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[A-Za-z]*$/))
+      .trim()
+      .messages(JoiMessages)
+  });
+
+  const schemaParams = Joi.object({
+    code: Joi.string()
+      .trim()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[A-Za-z0-9]*$/))
+      .required()
+      .messages(JoiMessages)
+  });
+  const { error } = schemaQuery.validate(req.query);
+  const { error: error2 } = schemaParams.validate(req.params);
+  // console.log(error);
+  if (error)
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+  if (error2)
+    return next(
+      new BadRequestErr(
+        error2.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+
+  next();
+};

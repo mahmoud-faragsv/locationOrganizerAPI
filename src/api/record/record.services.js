@@ -1,12 +1,13 @@
 import { Query } from '../../config/connection.js';
 
+// eslint-disable-next-line import/no-cycle
 import {
   lookUpQueries,
   loUnitQueries,
   typeValidationQueries,
   ViewsQueries
 } from './record.queries.js';
-
+import { bundleResourceQueries } from '../../../common/shared.queries.js';
 /**
  * @async
  * @function  responsible responsible for saving new record data into the lo_unit  table
@@ -35,3 +36,13 @@ export const updateImage = (params) =>
  */
 export const searchOnLoUint = (params, queryOptions) =>
   Query(ViewsQueries.select_from_vw_lo_units(queryOptions), params);
+
+export const getRecordInfo = (params) => Query(ViewsQueries.get, params);
+
+export const updateCodeAndImage = (params) =>
+  Query(loUnitQueries.updateRecordCodeImage, params);
+
+export const updateName = (params) =>
+  Query(bundleResourceQueries.updateMessageValue, params);
+
+export const recordGetAll = (params) => Query(loUnitQueries.get, params);

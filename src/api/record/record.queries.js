@@ -1,12 +1,15 @@
+// eslint-disable-next-line import/no-cycle
 import { buildSearchQuery } from './record.utils.js';
 
 export const loUnitQueries = {
   insert: `INSERT INTO lo_unit (NAME_KEY,UNIT_CODE, PARENT_ID, TYPE, OUID,IMAGE_VSID, ADDED_BY,UPDATED_BY,ADD_TIME,UPDATE_TIME)
   VALUES ?;`,
-  selectIdByUnitCode: `SELECT ID FROM lo_unit WHERE UNIT_CODE= ? ;
+  get: `select * FROM lo_unit WHERE UNIT_CODE = ?;`,
+  selectIdByUnitCode: `SELECT ID FROM lo_unit WHERE UNIT_CODE = ? ;
   `,
   selectUnitCode: ' SELECT UNIT_CODE FROM lo_unit WHERE UNIT_CODE=?;',
-  updateMapImage: ` UPDATE lo_unit SET IMAGE_VSID = ? WHERE UNIT_CODE = ?;`
+  updateMapImage: ` UPDATE lo_unit SET IMAGE_VSID = ? WHERE UNIT_CODE = ?;`,
+  updateRecordCodeImage: `UPDATE lo_unit SET UNIT_CODE = ? WHERE UNIT_CODE = ? AND OUID = ?`
 };
 export const typeValidationQueries = {
   selectParentId: `SELECT DISTINCT(t1.TYPE_ID) FROM lo_type_validation t1  
@@ -21,5 +24,7 @@ export const lookUpQueries = {
 };
 
 export const ViewsQueries = {
-  select_from_vw_lo_units: buildSearchQuery
+  select_from_vw_lo_units: buildSearchQuery,
+  get: `SELECT * FROM vw_lo_units
+  WHERE UNIT_CODE = ? AND OUID = ? AND LANGUAGE_ID = ?;`
 };
