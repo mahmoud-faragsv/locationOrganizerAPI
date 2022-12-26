@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 
 import {
   buildLoUnitQueryParams,
@@ -9,17 +9,21 @@ import {
 import {
   addChildRecord,
   deleteRecord,
-  getAllRecords,
   updateRecord,
   addRootRecord,
   uploadLocationMap,
-  search
+  search,
+  getRecord
 } from './record.controller.js';
-import { ValidateRootReq, ValidateChildReq } from './record.validator.js';
+import {
+  ValidateRootReq,
+  ValidateChildReq,
+  validateGetRecordQuery,
+  validateRecordUpdate
+} from './record.validator.js';
 
 const router = express.Router();
-
-router.route('/').get(getAllRecords);
+// router.route('/').get(getAllRecords);
 router
   .route('/child-record')
   .post(
@@ -47,8 +51,9 @@ router.route('/search').get(search);
 // });
 router
   .route('/:code')
+  .get(validateGetRecordQuery, getRecord)
   .post(uploadSingleMap, resizeUploadedMap, uploadLocationMap)
-  .patch(updateRecord)
+  .patch(validateRecordUpdate, updateRecord)
   .delete(deleteRecord);
 
 export default router;

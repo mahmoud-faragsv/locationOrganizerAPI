@@ -14,7 +14,8 @@ import {
   getRootLevelType,
   getAllLevelsIds,
   getAllAllowedChildrenIds,
-  getRootLevel
+  getRootLevel,
+  getAllRecordsAndSort
 } from './level.services.js';
 import {
   genLookUpBulk,
@@ -93,25 +94,22 @@ export const getUnit = catchAsyncErr(async (req, res, next) => {
   res.send('getUnit');
 });
 
-//? http://localhost:3000/api/v1/level?category=&ouid= GET
+//? http://localhost:3000/api/v1/level?category&ouid&lang GET
 export const getAllLevels = catchAsyncErr(async (req, res) => {
-  /* the frontend passes a query in the url with a name of OUID that refrences
-  the ID of the Organisation which is found in the OU table */
-  const { ouid, category } = req.query;
-  const { langTypeID, langType } = req;
+  const { langTypeID, langType, categoryID } = req;
 
-  const NumOfRecordsRes = await getNumOfRecords([category, langTypeID]);
+  const NumOfRecordsRes = await getNumOfRecords([categoryID, langTypeID]);
 
   res.status(StatusCodes.OK).json({
     status: CONSTANTS.MSG.SUCCESS[langType],
-    message: CONSTANTS.MSG.GET_ALL_LEVELS[langType],
+    message: CONSTANTS.MSG.GET_ALL_LEVELS_SUCCESS[langType],
     data: {
       namesAndNumOfRecords: NumOfRecordsRes[0]
     }
   });
 });
 
-//? http://localhost:3000/api/v1/level/:id PATCH
+//? http://localhost:3000/api/v1/level/:id?lang PATCH
 export const updateLevel = catchAsyncErr(async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const { newLevelName, newCustomProps } = req.body;
@@ -124,11 +122,9 @@ export const updateLevel = catchAsyncErr(async (req, res) => {
     CUSTOM_PROPS: oldCustomProps
   } = oldLevelRes[0][0];
 
-  await updateResBndlMessageValue([
-    newLevelName || oldLevelName,
-    uniqueKey,
-    langTypeID
-  ]);
+  if (newLevelName)
+    await updateResBndlMessageValue([newLevelName, uniqueKey, langTypeID]);
+
   await updateLookUpTitleKeyAndCustomProps([
     newLevelName || oldLevelName,
     newCustomProps || oldCustomProps,
@@ -140,8 +136,27 @@ export const updateLevel = catchAsyncErr(async (req, res) => {
   res.status(StatusCodes.OK).json({
     status: CONSTANTS.MSG.SUCCESS[langType],
     message: CONSTANTS.MSG.UPDATE_LEVEL_SUCCESS[langType],
+    data: updatedLevel[0][0]
+  });
+});
+
+// eslint-disable-next-line no-debugger
+// http://domain/api/v1/level/:id?sort&ouid&lang GET
+export const getAllRecords = catchAsyncErr(async (req, res, next) => {
+  const id = parseInt(req.params.id, 10);
+  const { langTypeID, langType, ouid } = req;
+  const { sort } = req.query;
+
+  const allRecordsRes = await getAllRecordsAndSort(
+    [id, langTypeID, ouid],
+    sort || 'record_name,1'
+  );
+
+  res.status(StatusCodes.OK).json({
+    status: CONSTANTS.MSG.SUCCESS[langType],
+    message: CONSTANTS.MSG.GET_ALL_RECORDS_SUCCESS[langType],
     data: {
-      updatedLevel: updatedLevel[0][0]
+      records: allRecordsRes[0]
     }
   });
 });

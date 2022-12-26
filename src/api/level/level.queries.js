@@ -1,3 +1,4 @@
+import { recordSortBy } from './level.utils.js';
 import DEV from '../../config/environments.js';
 /**
  * - The main goal of this module is to grouping all the possible queries(native-sql)
@@ -17,7 +18,6 @@ export const lookUpQueries = {
   JOIN look_up AS l WHERE u.PARENT_ID IS NULL AND  u.type = l.ID AND   u.OUID= ?; `
 };
 
-// NOTE: add a condition which is OUID = ? after the modification of the schema
 export const lookUpUnitQueries = {
   //Returns the ID and the name of the level and how many records it has
   getNumOfRecords: `SELECT ${DEV.DB_NAME}.look_up.ID, ${DEV.DB_NAME}.resource_bundle.MESSAGE_VALUE AS LEVEL_NAME, COUNT(${DEV.DB_NAME}.lo_unit.UNIT_CODE) AS NUMBER_OF_RECORDS
@@ -65,4 +65,8 @@ export const resourceBundleQueries = {
               FROM look_up
               WHERE ID = ? ) AND LANGUAGE_ID = ?; 
     `
+};
+
+export const loUnitQueries = {
+  getAllRecordsAndSortIt: recordSortBy
 };

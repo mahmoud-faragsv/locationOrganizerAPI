@@ -20,7 +20,8 @@ export const bundleResourceQueries = {
         FROM look_up
         WHERE CATEGORY =(?) 
        ) AND LANGUAGE_ID=(?) ;
-  `
+  `,
+  updateMessageValue: `UPDATE resource_bundle SET MESSAGE_VALUE = ? WHERE MESSAGE_KEY = ? AND LANGUAGE_ID = ?;`
 };
 
 export const LookUpQueries = {

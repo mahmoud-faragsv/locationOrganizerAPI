@@ -60,17 +60,70 @@ export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
   next();
 });
 
-export const validateLevelUpdate = catchAsyncErr(async (req, res, next) => {
+export const validateLevelUpdate = (req, res, next) => {
   const schema = Joi.object({
-    newLevelName: Joi.string().min(1).messages(JoiMessages),
+    newLevelName: Joi.string().trim().min(1).messages(JoiMessages),
     newCustomProps: Joi.object({
-      color: Joi.string().required().min(0).max(16).messages(JoiMessages)
-    }).messages(JoiMessages)
+      color: Joi.string().trim().required().min(1).max(16).messages(JoiMessages)
+    }).messages(JoiMessages),
+    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
   });
   const { error } = schema.validate(req.body);
-  if (error) return next(new BadRequestErr(error.details[0].message));
+  if (error)
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
 
   next();
-});
+};
+
+export const validateGetRecordsQuery = (req, res, next) => {
+  const schemaQuery = Joi.object({
+    sort: Joi.string()
+      .trim()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^\w+[,][-]?[1]{1}$/))
+      .messages(JoiMessages),
+    ouid: Joi.string()
+      .trim()
+      .required()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[^A-Za-z_]*$/))
+      .messages(JoiMessages),
+    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
+  });
+
+  const schemaParams = Joi.object({
+    id: Joi.string()
+      .trim()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[^A-Za-z_]*$/))
+      .required()
+      .messages(JoiMessages)
+  });
+
+  const { error } = schemaQuery.validate(req.query);
+  const { error: error2 } = schemaParams.validate(req.params);
+  // console.log(error);
+  if (error)
+    return next(
+      new BadRequestErr(
+        error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+  if (error2)
+    return next(
+      new BadRequestErr(
+        error2.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+
+  next();
+};
 
 export const x = catchAsyncErr(async (req, res) => {});

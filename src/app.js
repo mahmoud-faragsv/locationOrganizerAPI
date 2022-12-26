@@ -11,7 +11,7 @@ import languageRouter from './api/language/language.route.js';
 
 import {
   globalErrHandler,
-  bindLangInReq
+  bindInReq
 } from './general-middlewares/index.js';
 import NotFoundErr from './errors/notFound.error.js';
 // import dotenv from 'dotenv';
@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(cors());
 app.use(express.json());
-app.use(bindLangInReq);
+app.use(bindInReq);
 
 console.log('middleware');
 
