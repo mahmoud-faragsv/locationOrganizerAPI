@@ -18,7 +18,8 @@ import {
 import {
   ValidateRootReq,
   ValidateChildReq,
-  validateGetRecordQuery
+  validateGetRecordQuery,
+  validateRecordUpdate
 } from './record.validator.js';
 
 const router = express.Router();
@@ -45,7 +46,7 @@ router
   .route('/:code')
   .get(validateGetRecordQuery, getRecord)
   .post(uploadSingleMap, resizeUploadedMap, uploadLocationMap)
-  .patch(updateRecord)
+  .patch(validateRecordUpdate, updateRecord)
   .delete(deleteRecord);
 
 export default router;
