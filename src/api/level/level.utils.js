@@ -93,3 +93,25 @@ export const genBulkTypeValidation = (levelsIDs, payload) => {
 
   return bulk;
 };
+
+export const filterRootLevelId = (levelsId, allowedChildIds) => {
+  const allLevelsId = [];
+  const childIds = [];
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const item of levelsId) {
+    allLevelsId.push(item.ID);
+  }
+  // eslint-disable-next-line no-restricted-syntax
+  for (const item of allowedChildIds) {
+    childIds.push(item.ALLOWED_CHILD_TYPE_ID);
+  }
+
+  let rootId = null;
+  allLevelsId.forEach((id) => {
+    if (!childIds.includes(id)) {
+      rootId = id;
+    }
+  });
+  return rootId;
+};

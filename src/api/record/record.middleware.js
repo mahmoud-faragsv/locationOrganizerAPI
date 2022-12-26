@@ -54,6 +54,7 @@ export const resizeUploadedMap = catchAsyncErr(async (req, res, next) => {
         CONSTANTS.MSG.FAIL[req.langType]
       )
     );
+
   req.file.filename = `map-${req.params.code}-${Date.now()}.jpeg`;
   try {
     await sharp(req.file.buffer)
@@ -99,27 +100,31 @@ export const buildLoUnitQueryParams = catchAsyncErr(async (req, res, next) => {
   const isDuplicatedCode = unitCodeRes[0].length > 0;
 
   if (isDuplicatedCode)
-    return next(new BadRequestErr(CONSTANTS.MSG.DUPLICATE_UNIT_CODE));
+    return next(
+      new BadRequestErr(CONSTANTS.MSG.DUPLICATE_UNIT_CODE[req.langType])
+    );
   const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 
   const loUnitParams = [
     [
-      req.MESSAGE_KEY,
-      unitCode,
-      null,
-      0,
-      1,
-      'IMG_url',
-      1,
-      1,
-      time, // time of insertion= time of update
-      time
+      req.MESSAGE_KEY, //NAME_KEY
+      unitCode, //UNIT_CODE
+      null, //PARENT_ID
+      0, //TYPE
+      1, //OUID
+      'IMG_url', //IMAGE_VSID
+      1, //ADDED_BY
+      1, //UPDATED_BY
+      time, // ADD_TIME
+      time //UPDATE_TIME
     ]
   ];
   if (req.path === '/root-record') {
     const queryRes = await getUnitTypeId();
     if (queryRes[0].length === 0) {
-      return next(new NotFoundErr(CONSTANTS.MSG.NO_ROOT_ID_EXIST));
+      return next(
+        new NotFoundErr(CONSTANTS.MSG.NO_ROOT_ID_EXIST[req.langType])
+      );
     }
     const unitTypeId = queryRes[0][0].TYPE_ID;
 
@@ -128,19 +133,21 @@ export const buildLoUnitQueryParams = catchAsyncErr(async (req, res, next) => {
   if (req.path === '/child-record') {
     const queryResponse = await getMsgKey([unitType]);
     if (queryResponse[0].length === 0) {
-      return next(new BadRequestErr(CONSTANTS.MSG.UNIT_TYPE));
+      return next(new BadRequestErr(CONSTANTS.MSG.UNIT_TYPE[req.langType]));
     }
 
     const queryRes = await GetLookUpId([queryResponse[0][0].MESSAGE_KEY]); // type have to be values in ('City', 'Country','Area',....)
     if (queryRes[0].length === 0) {
-      return next(new BadRequestErr(CONSTANTS.MSG.UNIT_TYPE_DB));
+      return next(new BadRequestErr(CONSTANTS.MSG.UNIT_TYPE_DB[req.langType]));
     }
     const unitTypeID = queryRes[0][0].ID;
     loUnitParams[0][3] = unitTypeID;
 
     const qRes = await getIdByUnitCode([unitParentCode]);
     if (qRes[0].length === 0) {
-      return next(new BadRequestErr(CONSTANTS.MSG.UNIT_PARENT_CODE));
+      return next(
+        new BadRequestErr(CONSTANTS.MSG.UNIT_PARENT_CODE[req.langType])
+      );
     }
     loUnitParams[0][2] = qRes[0][0].ID;
   }

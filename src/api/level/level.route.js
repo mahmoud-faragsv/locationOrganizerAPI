@@ -1,5 +1,10 @@
 import express from 'express';
-import { createLevel, updateLevel, getAllLevels } from './level.controller.js';
+import {
+  createLevel,
+  updateLevel,
+  getAllLevels,
+  GetRootType
+} from './level.controller.js';
 import {
   validateLevelsInputs,
   validateGetLevelsQuery,
@@ -13,4 +18,5 @@ router
   .post(validateLevelsInputs, createLevel)
   .get(validateGetLevelsQuery, getAllLevels);
 router.route('/:id').patch(validateLevelUpdate, updateLevel);
+router.route('/root-type').get(GetRootType);
 export default router;

@@ -12,7 +12,9 @@ export const lookUpQueries = {
   get: `SELECT * FROM ${DEV.DB_NAME}.look_up WHERE ID = ?`,
   getUniqueKey: `SELECT UNIQUE_KEY FROM ${DEV.DB_NAME}.look_up WHERE ID = ?`,
   getLevelsSetIds: `SELECT ID, TITLE_KEY FROM look_up WHERE UNIQUE_KEY IN (?);`,
-  updateTitleKeyAndCustomProps: `UPDATE ${DEV.DB_NAME}.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE ID = ?`
+  updateTitleKeyAndCustomProps: `UPDATE ${DEV.DB_NAME}.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE ID = ?`,
+  selectRootLevelType: `SELECT DISTINCT TITLE_KEY AS MESSAGE_VALUE FROM lo_unit AS u 
+  JOIN look_up AS l WHERE u.PARENT_ID IS NULL AND  u.type = l.ID AND   u.OUID= ?; `
 };
 
 // NOTE: add a condition which is OUID = ? after the modification of the schema
@@ -25,11 +27,23 @@ export const lookUpUnitQueries = {
   INNER JOIN ${DEV.DB_NAME}.resource_bundle 
   ON ${DEV.DB_NAME}.look_up.UNIQUE_KEY = ${DEV.DB_NAME}.resource_bundle.MESSAGE_KEY
   WHERE ${DEV.DB_NAME}.look_up.CATEGORY = ? AND IS_ACTIVE = 1 AND ${DEV.DB_NAME}.resource_bundle.LANGUAGE_ID = ?
-  GROUP BY MESSAGE_VALUE ORDER BY ID ASC;`
+  GROUP BY MESSAGE_VALUE ORDER BY ID ASC;`,
+
+  selectAllLevelsIds: ` SELECT ID FROM look_up WHERE CATEGORY = ?`
 };
 
 export const typeValidationQueries = {
-  insert: `INSERT INTO lo_type_validation (TYPE_ID, ALLOWED_CHILD_TYPE_ID) VALUES ?;`
+  insert: `INSERT INTO lo_type_validation (TYPE_ID, ALLOWED_CHILD_TYPE_ID) VALUES ?;`,
+  selectAllAllowedChildrenIDs: `
+  SELECT ALLOWED_CHILD_TYPE_ID
+  FROM lo_type_validation
+  WHERE TYPE_ID 
+  IN(	
+     SELECT ID 
+      FROM look_up
+      WHERE CATEGORY =?
+     );
+  `
 };
 
 export const resourceBundleQueries = {
@@ -43,5 +57,12 @@ export const resourceBundleQueries = {
           FROM look_up
           WHERE CATEGORY =(?) 
          ) AND LANGUAGE_ID=(?) ;
+    `,
+  selectRootLevel: ` 
+    SELECT * FROM resource_bundle
+    WHERE MESSAGE_KEY =(
+       SELECT UNIQUE_KEY 
+              FROM look_up
+              WHERE ID = ? ) AND LANGUAGE_ID = ?; 
     `
 };

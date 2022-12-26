@@ -12,7 +12,7 @@ export const bundleResourceQueries = {
   selectMsgValue:
     'SELECT MESSAGE_KEY, MESSAGE_VALUE FROM resource_bundle WHERE MESSAGE_VALUE =?;',
   selectLevelsByLangAndCategory: `
-    SELECT LANGUAGE_ID ,MESSAGE_VALUE
+    SELECT *
     FROM resource_bundle
     WHERE MESSAGE_KEY 
     IN(	

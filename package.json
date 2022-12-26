@@ -6,9 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node index.js",
-    "start:dev": "SET NODE_ENV=development& nodemon index.js",
+    "start:dev": "SET NODE_ENV=production& nodemon index.js",
     "start:prod": "SET NODE_ENV=production& nodemon index.js",
-    "start:debug": "SET NODE_ENV=development& ndb index.js"
+    "start:debug": "SET NODE_ENV=production& ndb index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   "dependencies": {
     "babel-eslint": "^10.1.0",
     "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
@@ -49,6 +50,6 @@
     "prettier": "^2.7.1"
   },
   "engines": {
-    "node": "16.15.1"
+    "node": "16.x"
   }
 }
