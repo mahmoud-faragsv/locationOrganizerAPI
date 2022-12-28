@@ -15,6 +15,7 @@ import {
 
 const router = express.Router();
 
+router.route('/root-type').get(GetRootType);
 router
   .route('/')
   .post(validateLevelsInputs, createLevel)
@@ -23,5 +24,4 @@ router
   .route('/:id')
   .get(validateGetRecordsQuery, getAllRecords)
   .patch(validateLevelUpdate, updateLevel);
-router.route('/root-type').get(GetRootType);
 export default router;

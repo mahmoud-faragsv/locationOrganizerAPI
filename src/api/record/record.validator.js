@@ -1,4 +1,4 @@
-import Joi, { string } from 'joi';
+import Joi from 'joi';
 import JoiMessages from '../../../common/Joi.constant.js';
 import CONSTANTS from '../../../common/messages.js';
 import BadRequestErr from '../../errors/badRequest.error.js';
