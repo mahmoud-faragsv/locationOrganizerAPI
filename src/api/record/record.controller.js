@@ -120,13 +120,7 @@ export const updateRecord = catchAsyncErr(async (req, res, next) => {
   res.status(StatusCodes.OK).json({
     status: CONSTANTS.MSG.SUCCESS[langType],
     message: CONSTANTS.MSG.RECORD_UPDATE_SUCCESS[langType],
-    data: updatedRecord[0][0],
-    NAME_KEY,
-    newRecordName,
-    newUnitCode,
-    code,
-    record: record[0][0],
-    ouid
+    data: updatedRecord[0][0]
   });
 });
 
