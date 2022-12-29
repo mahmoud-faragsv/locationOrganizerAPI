@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import moment from 'moment';
 
 import { catchAsyncErr } from '../../general-utils/index.js';
 import {
@@ -6,14 +7,14 @@ import {
   searchOnLoUint,
   updateImage,
   getRecordInfo,
-  recordGetAll,
   updateCodeAndImage,
-  updateName
+  updateName,
+  recordGetAll
 } from './record.services.js';
 import CONSTANTS from '../../../common/messages.js';
 // import { addToResBundleAndLOUnit } from './record.utils.js';
 import { addToResBundle } from '../../../common/shared.services.js';
-import { deleteImageInPublic } from './record.utils.js';
+// import { deleteImageInPublic } from './record.utils.js';
 
 /**
  * record-route handler responsible for inserting  root records
@@ -83,8 +84,8 @@ export const uploadLocationMap = catchAsyncErr(async (req, res, next) => {
 
 // http://domain/api/v1/record/:code?ouid&lang GET
 export const getRecord = catchAsyncErr(async (req, res, next) => {
-  const { langTypeID, langType, ouid } = req;
-  const { code } = req.params;
+  const { langTypeID, langType } = req;
+  const { code, ouid } = req.params;
 
   const recordRes = await getRecordInfo([code, ouid, langTypeID]);
 
@@ -97,25 +98,35 @@ export const getRecord = catchAsyncErr(async (req, res, next) => {
   });
 });
 
-// http://domain/api/v1/record/:id
+// http://domain/api/v1/record/:title PATCH
 export const updateRecord = catchAsyncErr(async (req, res, next) => {
-  const { langTypeID, langType, ouid } = req;
+  const { langTypeID, langType } = req;
   const { code } = req.params;
-  const { newRecordName, newUnitCode } = req.body;
+  const { newRecordName, newUnitCode, ouid } = req.body;
 
   const record = await recordGetAll([code]);
   const { NAME_KEY } = record[0][0];
 
   // deleteImageInPublic(code);
-  if (newRecordName) await updateName([newRecordName, NAME_KEY, langTypeID]);
-  if (newUnitCode) await updateCodeAndImage([newUnitCode, code, ouid]);
-
-  const updatedRecord = await recordGetAll([newUnitCode]);
+  if (newRecordName) {
+    await updateName([newRecordName, NAME_KEY, langTypeID]);
+  }
+  if (newUnitCode) {
+    const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    await updateCodeAndImage([newUnitCode, time, code, ouid]);
+  }
+  const updatedRecord = await recordGetAll([newUnitCode || code]);
 
   res.status(StatusCodes.OK).json({
     status: CONSTANTS.MSG.SUCCESS[langType],
     message: CONSTANTS.MSG.RECORD_UPDATE_SUCCESS[langType],
-    data: updatedRecord[0][0]
+    data: updatedRecord[0][0],
+    NAME_KEY,
+    newRecordName,
+    newUnitCode,
+    code,
+    record: record[0][0],
+    ouid
   });
 });
 

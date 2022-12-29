@@ -20,7 +20,7 @@ router
   .post(validateLevelsInputs, createLevel)
   .get(validateGetLevelsQuery, getAllLevels);
 router
-  .route('/:id')
+  .route('/:title')
   .get(validateGetRecordsQuery, getAllRecords)
   .patch(validateLevelUpdate, updateLevel);
 router.route('/root-type').get(GetRootType);

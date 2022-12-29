@@ -45,8 +45,18 @@ export const validateLevelsInputs = catchAsyncErr(async (req, res, next) => {
 });
 export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
   const schema = Joi.object({
-    category: Joi.string().trim().required().messages(JoiMessages),
-    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
+    category: Joi.string()
+      .trim()
+      .required()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[^A-Za-z_]*$/))
+      .messages(JoiMessages),
+    lang: Joi.string()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[A-Za-z]*$/))
+      .optional()
+      .trim()
+      .messages(JoiMessages)
   });
   const { error } = schema.validate(req.query);
   if (error)
@@ -62,11 +72,30 @@ export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
 
 export const validateLevelUpdate = (req, res, next) => {
   const schema = Joi.object({
-    newLevelName: Joi.string().trim().min(1).messages(JoiMessages),
+    newLevelName: Joi.string().optional().trim().min(1).messages(JoiMessages),
     newCustomProps: Joi.object({
-      color: Joi.string().trim().required().min(1).max(16).messages(JoiMessages)
-    }).messages(JoiMessages),
-    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
+      color: Joi.string()
+        .trim()
+        .min(7)
+        .max(7)
+        .required()
+        // eslint-disable-next-line prefer-regex-literals
+        .pattern(new RegExp(/^#/))
+        .messages(JoiMessages)
+    })
+      .optional()
+      .messages(JoiMessages),
+    lang: Joi.string()
+      .valid('Eng', 'Arab')
+      .optional()
+      .trim()
+      .messages(JoiMessages),
+    category: Joi.string()
+      .trim()
+      .required()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[^A-Za-z_]*$/))
+      .messages(JoiMessages)
   });
   const { error } = schema.validate(req.body);
   if (error)
@@ -84,6 +113,7 @@ export const validateGetRecordsQuery = (req, res, next) => {
   const schemaQuery = Joi.object({
     sort: Joi.string()
       .trim()
+      .optional()
       // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^\w+[,][-]?[1]{1}$/))
       .messages(JoiMessages),
@@ -93,16 +123,17 @@ export const validateGetRecordsQuery = (req, res, next) => {
       // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[^A-Za-z_]*$/))
       .messages(JoiMessages),
-    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
+    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages),
+    category: Joi.string()
+      .trim()
+      .required()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[^A-Za-z_]*$/))
+      .messages(JoiMessages)
   });
 
   const schemaParams = Joi.object({
-    id: Joi.string()
-      .trim()
-      // eslint-disable-next-line prefer-regex-literals
-      .pattern(new RegExp(/^[^A-Za-z_]*$/))
-      .required()
-      .messages(JoiMessages)
+    title: Joi.string().trim().required().messages(JoiMessages)
   });
 
   const { error } = schemaQuery.validate(req.query);

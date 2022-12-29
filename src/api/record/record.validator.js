@@ -1,4 +1,4 @@
-import Joi, { string } from 'joi';
+import Joi from 'joi';
 import JoiMessages from '../../../common/Joi.constant.js';
 import CONSTANTS from '../../../common/messages.js';
 import BadRequestErr from '../../errors/badRequest.error.js';
@@ -66,12 +66,7 @@ export const validateGetRecordQuery = (req, res, next) => {
   });
 
   const schemaParams = Joi.object({
-    code: Joi.string()
-      .trim()
-      // eslint-disable-next-line prefer-regex-literals
-      .pattern(new RegExp(/^[A-Za-z0-9]*$/))
-      .required()
-      .messages(JoiMessages)
+    code: Joi.string().trim().required().messages(JoiMessages)
   });
   const { error } = schemaQuery.validate(req.query);
   const { error: error2 } = schemaParams.validate(req.params);
@@ -96,11 +91,8 @@ export const validateGetRecordQuery = (req, res, next) => {
 
 export const validateRecordUpdate = (req, res, next) => {
   const schemaBody = Joi.object({
-    newRecordName: Joi.string().trim().message(JoiMessages),
-    newUnitCode: Joi.string().trim().message(JoiMessages)
-  });
-
-  const schemaQuery = Joi.object({
+    newRecordName: Joi.string().optional().trim().message(JoiMessages),
+    newUnitCode: Joi.string().optional().trim().message(JoiMessages),
     ouid: Joi.string()
       .trim()
       .required()
@@ -115,17 +107,10 @@ export const validateRecordUpdate = (req, res, next) => {
   });
 
   const schemaParams = Joi.object({
-    code: Joi.string()
-      .trim()
-      // eslint-disable-next-line prefer-regex-literals
-      .pattern(new RegExp(/^[A-Za-z0-9]*$/))
-      .required()
-      .messages(JoiMessages)
+    code: Joi.string().trim().required().messages(JoiMessages)
   });
-
-  const { error } = schemaQuery.validate(req.query);
-  const { error: error2 } = schemaParams.validate(req.params);
-  const { error: error3 } = schemaBody.validate(req.body);
+  const { error } = schemaParams.validate(req.params);
+  const { error: error2 } = schemaBody.validate(req.body);
   // console.log(error);
   if (error)
     return next(
@@ -138,13 +123,6 @@ export const validateRecordUpdate = (req, res, next) => {
     return next(
       new BadRequestErr(
         error2.details[0].message,
-        CONSTANTS.MSG.FAIL[req.langType]
-      )
-    );
-  if (error3)
-    return next(
-      new BadRequestErr(
-        error3.details[0].message,
         CONSTANTS.MSG.FAIL[req.langType]
       )
     );

@@ -19,6 +19,8 @@ async function getLanguage(lang, req, next) {
 
   req.langTypeID = langTypeID;
   req.langType = lang.trim();
+
+  next();
 }
 /**
  * @function a middleware  func  responsible for detecting the request language type from
@@ -28,17 +30,12 @@ async function getLanguage(lang, req, next) {
  * 2) req.langType: string --> just a short_label for the provided language, ex:'Eng' , 'Arab
  */
 const bindInReq = catchAsyncErr(async (req, res, next) => {
-  const { lang, orgID, category } = req.body;
-  const { lang: lngtype, ouid: ouID, category: categoryid } = req.query;
+  const { lang } = req.body;
+  const { lang: lngtype } = req.query;
 
   const langType = lang || lngtype || 'Eng'; // Eng is the default lang if not provided
-  const ouid = orgID || ouID;
-  const categoryID = categoryid || category;
 
   await getLanguage(langType, req, next);
-  req.ouid = ouid;
-  req.categoryID = categoryID;
-  next();
 });
 
 export default bindInReq;

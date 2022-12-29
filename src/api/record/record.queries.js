@@ -9,7 +9,7 @@ export const loUnitQueries = {
   `,
   selectUnitCode: ' SELECT UNIT_CODE FROM lo_unit WHERE UNIT_CODE=?;',
   updateMapImage: ` UPDATE lo_unit SET IMAGE_VSID = ? WHERE UNIT_CODE = ?;`,
-  updateRecordCodeImage: `UPDATE lo_unit SET UNIT_CODE = ? WHERE UNIT_CODE = ? AND OUID = ?`
+  updateRecordCodeImage: `UPDATE lo_unit SET UNIT_CODE = ?, UPDATE_TIME = ? WHERE UNIT_CODE = ? AND OUID = ?;`
 };
 export const typeValidationQueries = {
   selectParentId: `SELECT DISTINCT(t1.TYPE_ID) FROM lo_type_validation t1  
