@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  * -this module designed specifically to abstract our db queries.
  * -her we hide all the application logic from the controller to make it nice and clean.
@@ -27,11 +28,17 @@ import { bundleResourceQueries as sharedRescBundle } from '../../../common/share
 export const addToLookUp = (params) => {
   console.log('Inside level.service.addToLookUp function');
 
+  console.log('lookUpQueries.insert:', lookUpQueries.insert);
+  console.log('params:', params);
+
   return Query(lookUpQueries.insert, params);
 };
 
 export const getUniqueKey = (params) => {
   console.log('Inside level.service. function');
+
+  console.log('lookUpQueries.getUniqueKey:', lookUpQueries.getUniqueKey);
+  console.log('params:', params);
 
   return Query(lookUpQueries.getUniqueKey, params);
 };
@@ -43,6 +50,9 @@ export const getUniqueKey = (params) => {
  */
 export const getLevelsIDs = (params) => {
   console.log('Inside level.service.getLevelsIDs function');
+
+  console.log('lookUpQueries.getLevelsSetIds:', lookUpQueries.getLevelsSetIds);
+  console.log('params:', params);
 
   return Query(lookUpQueries.getLevelsSetIds, params);
 };
@@ -57,11 +67,17 @@ export const getLevelsIDs = (params) => {
 export const addToTypeValidation = (params) => {
   console.log('Inside level.service.addToTypeValidation function');
 
+  console.log('typeValidationQueries.insert:', typeValidationQueries.insert);
+  console.log('params:', params);
+
   return Query(typeValidationQueries.insert, params);
 };
 
 export const getNumOfRecords = (params) => {
   console.log('Inside level.service.getNumOfRecords function');
+
+  console.log('lookUpUnitQueries.getNumOfRecords:', lookUpUnitQueries.getNumOfRecords);
+  console.log('params:', params);
 
   return Query(lookUpUnitQueries.getNumOfRecords, params);
 };
@@ -69,17 +85,23 @@ export const getNumOfRecords = (params) => {
 export const updateResBndlMessageValue = (params) => {
   console.log('Inside level.service.updateResBndlMessageValue function');
 
+  console.log('resourceBundleQueries.updateMessageValue:', resourceBundleQueries.updateMessageValue);
+  console.log('params:', params)
+
   return Query(resourceBundleQueries.updateMessageValue, params);
 };
 export const updateLookUpTitleKeyAndCustomProps = (params) => {
   // eslint-disable-next-line prettier/prettier
   console.log('Inside level.service.updateLookUpTitleKeyAndCustomProps function');
+  console.log('params:', params);
+
 
   return Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
 };
 
 export const getFromLookUp = (params) => {
   console.log('Inside level.service.getFromLookUp function');
+  console.log('params:', params);
 
   return Query(lookUpQueries.get, params);
 };
@@ -92,40 +114,42 @@ export const getFromLookUp = (params) => {
  */
 export const getLevels = (params) => {
   console.log('Inside level.service.getLevels function');
+  console.log('params:', params);
 
   return Query(sharedRescBundle.selectLevelsByLangAndCategory, params);
 };
 
 export const getRootLevelType = (params) => {
   console.log('Inside level.service.getRootLevelType function');
-  console.log(
-    `lookUpQueries.selectRootLevelType = ${lookUpQueries.selectRootLevelType}`
-  );
-  console.log(`query parameters = ${params}`);
+  console.log('params:', params);
 
   return Query(lookUpQueries.selectRootLevelType, params);
 };
 
 export const getAllLevelsIds = (params) => {
   console.log('Inside level.service.getAllLevelsIds function');
+  console.log('params:', params);
 
   return Query(lookUpUnitQueries.selectAllLevelsIds, params);
 };
 
 export const getAllAllowedChildrenIds = (params) => {
   console.log('Inside level.service.getAllAllowedChildrenIds function');
+  console.log('params:', params);
 
   return Query(typeValidationQueries.selectAllAllowedChildrenIDs, params);
 };
 
 export const getRootLevel = (params) => {
   console.log('Inside level.service.getRootLevel function');
+  console.log('params:', params);
 
   return Query(resourceBundleQueries.selectRootLevel, params);
 };
 
 export const getAllRecordsAndSort = (params, queryOptions) => {
   console.log('Inside level.service.getAllRecordsAndSort function');
+  console.log('params:', params);
 
   return Query(loUnitQueries.getAllRecordsAndSortIt(queryOptions), params);
 };
