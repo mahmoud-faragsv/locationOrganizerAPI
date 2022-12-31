@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express from 'express';
 
 import {
   buildLoUnitQueryParams,
@@ -13,7 +13,8 @@ import {
   addRootRecord,
   uploadLocationMap,
   search,
-  getRecord
+  getRecord,
+  fetchRecordsByOUID
 } from './record.controller.js';
 import {
   ValidateRootReq,
@@ -23,7 +24,9 @@ import {
 } from './record.validator.js';
 
 const router = express.Router();
-// router.route('/').get(getAllRecords);
+
+router.route('/all').get(fetchRecordsByOUID);
+
 router
   .route('/child-record')
   .post(

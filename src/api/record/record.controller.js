@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { StatusCodes } from 'http-status-codes';
 import moment from 'moment';
 
@@ -9,7 +10,8 @@ import {
   getRecordInfo,
   updateCodeAndImage,
   updateName,
-  recordGetAll
+  recordGetAll,
+  selectRecordsByOUID
 } from './record.services.js';
 import CONSTANTS from '../../../common/messages.js';
 // import { addToResBundleAndLOUnit } from './record.utils.js';
@@ -24,6 +26,8 @@ import { addToResBundle } from '../../../common/shared.services.js';
  * @returns { } {status : string, ,message : string}
  */
 export const addRootRecord = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.addRootRecord function');
+
   /**
    * @type {[[{  LANGUAGE_ID: number , MESSAGE_KEY: string, BUNDLE_KEY: string, MESSAGE_VALUE: string}]]}
    * @description array of array describe a new row(record) ready to be saved into the
@@ -47,6 +51,8 @@ export const addRootRecord = catchAsyncErr(async (req, res) => {
   });
 });
 export const addChildRecord = catchAsyncErr(async (req, res, next) => {
+  console.log('Inside controller.addChildRecord function');
+
   /**
    * @type {[[{  LANGUAGE_ID: number , MESSAGE_KEY: string, BUNDLE_KEY: string, MESSAGE_VALUE: string}]]}
    * @description array of array describe a new row(record) ready to be saved into the
@@ -72,6 +78,8 @@ export const addChildRecord = catchAsyncErr(async (req, res, next) => {
 
 // http://domain/api/v1/record/:id
 export const uploadLocationMap = catchAsyncErr(async (req, res, next) => {
+  console.log('Inside controller.uploadLocationMap function');
+
   const { code } = req.params;
 
   await updateImage([req.file.filename, code]);
@@ -84,6 +92,8 @@ export const uploadLocationMap = catchAsyncErr(async (req, res, next) => {
 
 // http://domain/api/v1/record/:code?ouid&lang GET
 export const getRecord = catchAsyncErr(async (req, res, next) => {
+  console.log('Inside controller.getRecord function');
+
   const { langTypeID, langType } = req;
   const { code, ouid } = req.params;
 
@@ -100,6 +110,8 @@ export const getRecord = catchAsyncErr(async (req, res, next) => {
 
 // http://domain/api/v1/record/:title PATCH
 export const updateRecord = catchAsyncErr(async (req, res, next) => {
+  console.log('Inside controller.updateRecord function');
+
   const { langTypeID, langType } = req;
   const { code } = req.params;
   const { newRecordName, newUnitCode, ouid } = req.body;
@@ -125,13 +137,17 @@ export const updateRecord = catchAsyncErr(async (req, res, next) => {
 });
 
 // http://domain/api/v1/record/:id
-export const deleteRecord = catchAsyncErr(async (req, res, next) => {
+export const deleteRecord = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.deleteRecord function');
+
   res
     .status(200)
     .json({ status: 'success', message: 'record deleted successfully' });
 });
 
 export const search = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.search function');
+
   console.log(req.query);
   /**
    * @type {[ADD_TIME:Date,TYPE: string ]} - describe the search options keys
@@ -146,5 +162,19 @@ export const search = catchAsyncErr(async (req, res) => {
   res.status(StatusCodes.CREATED).json({
     status: CONSTANTS.MSG.SUCCESS[req.langType],
     data: resQ[0]
+  });
+});
+
+export const fetchRecordsByOUID = catchAsyncErr(async (req, res) => {
+  const { OUID } = req.query;
+
+  if (isNaN(OUID)) {
+    return res.status(400).json('OUID must be a number ');
+  }
+  const result = await selectRecordsByOUID([+OUID, req.langTypeID]);
+
+  res.status(StatusCodes.OK).json({
+    status: CONSTANTS.MSG.SUCCESS[req.langType],
+    data: result[0]
   });
 });

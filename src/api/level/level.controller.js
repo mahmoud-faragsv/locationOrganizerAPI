@@ -6,7 +6,6 @@ import {
   addToLookUp,
   addToTypeValidation,
   getFromLookUp,
-  getNumOfRecords,
   updateLookUpTitleKeyAndCustomProps,
   updateResBndlMessageValue,
   getLevels,
@@ -15,7 +14,8 @@ import {
   getAllLevelsIds,
   getAllAllowedChildrenIds,
   getRootLevel,
-  getAllRecordsAndSort
+  getAllRecordsAndSort,
+  getNumOfRecords
 } from './level.services.js';
 import {
   genLookUpBulk,
@@ -30,7 +30,9 @@ import {
  * @function  responsible for creating the levels for the first time when the client initiate the
  * application with his own levels
  */
-export const createLevel = catchAsyncErr(async (req, res, next) => {
+export const createLevel = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.createLevel function');
+
   /**
    * @type {[{type:string, parent:[string | null], color: string}]} - the client input which holds the levels data
    */
@@ -63,8 +65,8 @@ export const createLevel = catchAsyncErr(async (req, res, next) => {
  * @function  responsible for fetching all the levels from the db
  * @param {Object} req - http_request
  */
-export const fetchLevels = catchAsyncErr(async (req, res, next) => {
-  // const { category } = req.query;
+export const fetchAllChildLevels = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.fetchAllChildLevels function');
 
   /**
    * @type {number} -  provided client category value
@@ -90,12 +92,14 @@ export const fetchLevels = catchAsyncErr(async (req, res, next) => {
   });
 });
 
-export const getUnit = catchAsyncErr(async (req, res, next) => {
+export const getUnit = catchAsyncErr(async (req, res) => {
   res.send('getUnit');
 });
 
-//? http://localhost:3000/api/v1/level?category&lang GET
+// //? http://localhost:3000/api/v1/level?category&lang GET
 export const getAllLevels = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.getAllLevels function');
+
   const { langTypeID, langType } = req;
   const { category } = req.query;
 
@@ -110,6 +114,8 @@ export const getAllLevels = catchAsyncErr(async (req, res) => {
 
 //? http://localhost:3000/api/v1/level/:title PATCH
 export const updateLevel = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.updateLevel function');
+
   const { title } = req.params;
   // eslint-disable-next-line prefer-const
   let { newLevelName, newCustomProps, category } = req.body;
@@ -141,9 +147,10 @@ export const updateLevel = catchAsyncErr(async (req, res) => {
   });
 });
 
-// eslint-disable-next-line no-debugger
 // http://domain/api/v1/level/:title?sort&ouid&lang&category GET
-export const getAllRecords = catchAsyncErr(async (req, res, next) => {
+export const getAllRecords = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.getAllRecords function');
+
   const { title } = req.params;
   const { langTypeID, langType } = req;
   const { sort, category, ouid } = req.query;
@@ -163,7 +170,9 @@ export const getAllRecords = catchAsyncErr(async (req, res, next) => {
   });
 });
 
-export const GetRootType = catchAsyncErr(async (req, res, next) => {
+export const GetRootType = catchAsyncErr(async (req, res) => {
+  console.log('Inside controller.GetRootType function');
+
   const { OUID } = req.query;
   const queryRes = await getRootLevelType(+OUID);
 

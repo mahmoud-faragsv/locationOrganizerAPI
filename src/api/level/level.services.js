@@ -24,19 +24,28 @@ import { bundleResourceQueries as sharedRescBundle } from '../../../common/share
  * @param {[[UNIQUE_KEY: string, CATEGORY: number, TITLE_KEY: string,PARENT_ID:number ,CUSTOM_PROPS:{color:string} ]]} params - the bulk(group of rows 'access db once') which needed to be injected in the query before access db
  * @returns {Promise<[[rows],[fields]]>}- array of array holds the result of the db query
  */
-export const addToLookUp = (params) => Query(lookUpQueries.insert, params);
+export const addToLookUp = (params) => {
+  console.log('Inside level.service.addToLookUp function');
 
-export const getUniqueKey = (params) =>
-  Query(lookUpQueries.getUniqueKey, params);
+  return Query(lookUpQueries.insert, params);
+};
 
+export const getUniqueKey = (params) => {
+  console.log('Inside level.service. function');
+
+  return Query(lookUpQueries.getUniqueKey, params);
+};
 /**
  * @async
  * @function  responsible for selecting all matched IDs from lookup table based on set of message_keys
  * @param {[string]} params - array of message_keys
  * @returns {Promise<[[{ID:number,TITLE_KEY: string }],[fields]]>}- array of array holds the result of the db query
  */
-export const getLevelsIDs = (params) =>
-  Query(lookUpQueries.getLevelsSetIds, params);
+export const getLevelsIDs = (params) => {
+  console.log('Inside level.service.getLevelsIDs function');
+
+  return Query(lookUpQueries.getLevelsSetIds, params);
+};
 
 /**
  * @async
@@ -45,39 +54,78 @@ export const getLevelsIDs = (params) =>
  * in the type_validation table
  * @returns {Promise<[[rows],[fields]]>}- array of array holds the result of the db query
  */
-export const addToTypeValidation = (params) =>
-  Query(typeValidationQueries.insert, params);
+export const addToTypeValidation = (params) => {
+  console.log('Inside level.service.addToTypeValidation function');
 
-export const getNumOfRecords = (params) =>
-  Query(lookUpUnitQueries.getNumOfRecords, params);
+  return Query(typeValidationQueries.insert, params);
+};
 
-export const updateResBndlMessageValue = (params) =>
-  Query(resourceBundleQueries.updateMessageValue, params);
+export const getNumOfRecords = (params) => {
+  console.log('Inside level.service.getNumOfRecords function');
 
-export const updateLookUpTitleKeyAndCustomProps = (params) =>
-  Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
+  return Query(lookUpUnitQueries.getNumOfRecords, params);
+};
 
-export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
+export const updateResBndlMessageValue = (params) => {
+  console.log('Inside level.service.updateResBndlMessageValue function');
+
+  return Query(resourceBundleQueries.updateMessageValue, params);
+};
+export const updateLookUpTitleKeyAndCustomProps = (params) => {
+  // eslint-disable-next-line prettier/prettier
+  console.log('Inside level.service.updateLookUpTitleKeyAndCustomProps function');
+
+  return Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
+};
+
+export const getFromLookUp = (params) => {
+  console.log('Inside level.service.getFromLookUp function');
+
+  return Query(lookUpQueries.get, params);
+};
+
 /**
  * @async
  * @function  responsible for fetching all the client levels(categories)
  * @param {[CATEGORY: number, LANGUAGE_ID: number]} params
  * @returns {Promise<[[{LANGUAGE_ID: number ,MESSAGE_VALUE: string}],[fields]]>}- array of arrays holds the result of the db query
  */
-export const getLevels = (params) =>
-  Query(sharedRescBundle.selectLevelsByLangAndCategory, params);
+export const getLevels = (params) => {
+  console.log('Inside level.service.getLevels function');
 
-export const getRootLevelType = (params) =>
-  Query(lookUpQueries.selectRootLevelType, params);
+  return Query(sharedRescBundle.selectLevelsByLangAndCategory, params);
+};
 
-export const getAllLevelsIds = (params) =>
-  Query(lookUpUnitQueries.selectAllLevelsIds, params);
+export const getRootLevelType = (params) => {
+  console.log('Inside level.service.getRootLevelType function');
+  console.log(
+    `lookUpQueries.selectRootLevelType = ${lookUpQueries.selectRootLevelType}`
+  );
+  console.log(`query parameters = ${params}`);
 
-export const getAllAllowedChildrenIds = (params) =>
-  Query(typeValidationQueries.selectAllAllowedChildrenIDs, params);
+  return Query(lookUpQueries.selectRootLevelType, params);
+};
 
-export const getRootLevel = (params) =>
-  Query(resourceBundleQueries.selectRootLevel, params);
+export const getAllLevelsIds = (params) => {
+  console.log('Inside level.service.getAllLevelsIds function');
 
-export const getAllRecordsAndSort = (params, queryOptions) =>
-  Query(loUnitQueries.getAllRecordsAndSortIt(queryOptions), params);
+  return Query(lookUpUnitQueries.selectAllLevelsIds, params);
+};
+
+export const getAllAllowedChildrenIds = (params) => {
+  console.log('Inside level.service.getAllAllowedChildrenIds function');
+
+  return Query(typeValidationQueries.selectAllAllowedChildrenIDs, params);
+};
+
+export const getRootLevel = (params) => {
+  console.log('Inside level.service.getRootLevel function');
+
+  return Query(resourceBundleQueries.selectRootLevel, params);
+};
+
+export const getAllRecordsAndSort = (params, queryOptions) => {
+  console.log('Inside level.service.getAllRecordsAndSort function');
+
+  return Query(loUnitQueries.getAllRecordsAndSortIt(queryOptions), params);
+};

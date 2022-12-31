@@ -2,9 +2,10 @@ import express from 'express';
 import {
   createLevel,
   updateLevel,
-  getAllLevels,
   GetRootType,
-  getAllRecords
+  getAllRecords,
+  fetchAllChildLevels,
+  getAllLevels
 } from './level.controller.js';
 import {
   validateLevelsInputs,
@@ -16,10 +17,11 @@ import {
 const router = express.Router();
 
 router.route('/root-type').get(GetRootType);
-router
-  .route('/')
-  .post(validateLevelsInputs, createLevel)
-  .get(validateGetLevelsQuery, getAllLevels);
+router.route('/').post(validateLevelsInputs, createLevel);
+
+router.route('/child-levels').get(validateGetLevelsQuery, fetchAllChildLevels);
+router.route('/all-levels').get(validateGetLevelsQuery, getAllLevels);
+
 router
   .route('/:title')
   .get(validateGetRecordsQuery, getAllRecords)

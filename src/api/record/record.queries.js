@@ -28,3 +28,10 @@ export const ViewsQueries = {
   get: `SELECT * FROM vw_lo_units
   WHERE UNIT_CODE = ? AND OUID = ? AND LANGUAGE_ID = ?;`
 };
+
+export const resourceBundleQueries = {
+  getAllRecordsByOUID: `SELECT MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE 
+  FROM resource_bundle 
+  WHERE  MESSAGE_KEY IN ( SELECT NAME_KEY FROM lo_unit WHERE OUID = ?) AND LANGUAGE_ID = ?;
+  `
+};
