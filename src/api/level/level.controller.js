@@ -170,11 +170,11 @@ export const getAllRecords = catchAsyncErr(async (req, res) => {
   });
 });
 
-export const GetRootType = catchAsyncErr(async (req, res) => {
+export const GetRootLevelType = catchAsyncErr(async (req, res) => {
   console.log('Inside controller.GetRootType function');
 
   const { OUID } = req.query;
-  const queryRes = await getRootLevelType(+OUID);
+  const queryRes = await getRootLevelType([+OUID, req.langTypeID]);
 
   res
     .status(StatusCodes.OK)

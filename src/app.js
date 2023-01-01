@@ -33,7 +33,6 @@ app.use(cors());
 app.use(express.json());
 app.use(bindInReq);
 
-console.log('middleware');
 
 app.use('/api/v1/level', levelRouter);
 app.use('/api/v1/languages', languageRouter);

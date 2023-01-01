@@ -91,8 +91,9 @@ export const updateResBndlMessageValue = (params) => {
   return Query(resourceBundleQueries.updateMessageValue, params);
 };
 export const updateLookUpTitleKeyAndCustomProps = (params) => {
-  // eslint-disable-next-line prettier/prettier
   console.log('Inside level.service.updateLookUpTitleKeyAndCustomProps function');
+
+  console.log(' lookUpQueries.updateTitleKeyAndCustomProps:', lookUpQueries.updateTitleKeyAndCustomProps);
   console.log('params:', params);
 
 
@@ -101,6 +102,8 @@ export const updateLookUpTitleKeyAndCustomProps = (params) => {
 
 export const getFromLookUp = (params) => {
   console.log('Inside level.service.getFromLookUp function');
+
+  console.log('  lookUpQueries.get:', lookUpQueries.get);
   console.log('params:', params);
 
   return Query(lookUpQueries.get, params);
@@ -114,6 +117,8 @@ export const getFromLookUp = (params) => {
  */
 export const getLevels = (params) => {
   console.log('Inside level.service.getLevels function');
+
+  console.log('sharedRescBundle.selectLevelsByLangAndCategory:', sharedRescBundle.selectLevelsByLangAndCategory);
   console.log('params:', params);
 
   return Query(sharedRescBundle.selectLevelsByLangAndCategory, params);
@@ -121,13 +126,17 @@ export const getLevels = (params) => {
 
 export const getRootLevelType = (params) => {
   console.log('Inside level.service.getRootLevelType function');
+
+  console.log('  lookUpUnitQueries.selectAllLevelsIds:', resourceBundleQueries.selectRootLevelType);
   console.log('params:', params);
 
-  return Query(lookUpQueries.selectRootLevelType, params);
+  return Query(resourceBundleQueries.selectRootLevelType, params);
 };
 
 export const getAllLevelsIds = (params) => {
   console.log('Inside level.service.getAllLevelsIds function');
+
+  console.log('  lookUpUnitQueries.selectAllLevelsIds:', lookUpUnitQueries.selectAllLevelsIds);
   console.log('params:', params);
 
   return Query(lookUpUnitQueries.selectAllLevelsIds, params);
@@ -135,6 +144,8 @@ export const getAllLevelsIds = (params) => {
 
 export const getAllAllowedChildrenIds = (params) => {
   console.log('Inside level.service.getAllAllowedChildrenIds function');
+
+  console.log('typeValidationQueries.selectAllAllowedChildrenIDs:', typeValidationQueries.selectAllAllowedChildrenIDs);
   console.log('params:', params);
 
   return Query(typeValidationQueries.selectAllAllowedChildrenIDs, params);
@@ -142,6 +153,8 @@ export const getAllAllowedChildrenIds = (params) => {
 
 export const getRootLevel = (params) => {
   console.log('Inside level.service.getRootLevel function');
+
+  console.log('resourceBundleQueries.selectRootLevel:', resourceBundleQueries.selectRootLevel);
   console.log('params:', params);
 
   return Query(resourceBundleQueries.selectRootLevel, params);
@@ -149,6 +162,8 @@ export const getRootLevel = (params) => {
 
 export const getAllRecordsAndSort = (params, queryOptions) => {
   console.log('Inside level.service.getAllRecordsAndSort function');
+
+  console.log('loUnitQueries.getAllRecordsAndSortIt:', loUnitQueries.getAllRecordsAndSortIt(queryOptions));
   console.log('params:', params);
 
   return Query(loUnitQueries.getAllRecordsAndSortIt(queryOptions), params);

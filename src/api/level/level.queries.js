@@ -13,9 +13,7 @@ export const lookUpQueries = {
   get: `SELECT * FROM ${DEV.DB_NAME}.look_up WHERE TITLE_KEY = ? AND CATEGORY = ? AND IS_ACTIVE = 1`,
   getUniqueKey: `SELECT UNIQUE_KEY FROM ${DEV.DB_NAME}.look_up WHERE ID = ?`,
   getLevelsSetIds: `SELECT ID, TITLE_KEY FROM look_up WHERE UNIQUE_KEY IN (?);`,
-  updateTitleKeyAndCustomProps: `UPDATE ${DEV.DB_NAME}.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE TITLE_KEY = ? AND CATEGORY = ?`,
-  selectRootLevelType: `SELECT DISTINCT TITLE_KEY AS MESSAGE_VALUE FROM lo_unit AS u 
-  JOIN look_up AS l WHERE u.PARENT_ID IS NULL AND  u.type = l.ID AND   u.OUID= ?; `
+  updateTitleKeyAndCustomProps: `UPDATE ${DEV.DB_NAME}.look_up SET TITLE_KEY = ?, CUSTOM_PROPS = ? WHERE TITLE_KEY = ? AND CATEGORY = ?`
 };
 
 export const lookUpUnitQueries = {
@@ -64,6 +62,13 @@ export const resourceBundleQueries = {
        SELECT UNIQUE_KEY 
               FROM look_up
               WHERE ID = ? ) AND LANGUAGE_ID = ?; 
+    `,
+  selectRootLevelType: `
+      SELECT * FROM resource_bundle
+      WHERE MESSAGE_KEY = (
+      SELECT DISTINCT  UNIQUE_KEY FROM lo_unit AS u 
+      JOIN look_up AS l WHERE u.PARENT_ID IS NULL AND  u.type = l.ID AND   u.OUID= ?) 
+      AND LANGUAGE_ID= ?;
     `
 };
 

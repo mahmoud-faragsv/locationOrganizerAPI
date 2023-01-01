@@ -79,7 +79,7 @@ export const updateImage = (params) => {
 export const searchOnLoUint = (params, queryOptions) => {
   console.log('Inside record.service.searchOnLoUint function');
 
-  console.log(' ViewsQueries.select_from_vw_lo_units:', ViewsQueries.select_from_vw_lo_units);
+  console.log(' ViewsQueries.select_from_vw_lo_units:', ViewsQueries.select_from_vw_lo_units(queryOptions));
   console.log('params:', params);
 
   return Query(ViewsQueries.select_from_vw_lo_units(queryOptions), params);

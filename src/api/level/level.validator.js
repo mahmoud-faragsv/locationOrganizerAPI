@@ -1,3 +1,4 @@
+/* eslint-disable prefer-regex-literals */
 import Joi from 'joi';
 import JoiMessages from '../../../common/Joi.constant.js';
 import CONSTANTS from '../../../common/messages.js';
@@ -10,15 +11,18 @@ import { catchAsyncErr } from '../../general-utils/index.js';
 export const validateLevelsInputs = catchAsyncErr(async (req, res, next) => {
   const schema = Joi.object({
     lang: Joi.string().trim().required().messages(JoiMessages),
+
     payload: Joi.array()
       .items(
         Joi.object({
           type: Joi.string().trim().required().messages(JoiMessages),
+
           parent: Joi.array()
             .items(Joi.string().allow(null))
             .required()
 
             .messages(JoiMessages),
+
           color: Joi.string()
             .trim()
             .min(7)
@@ -51,6 +55,7 @@ export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
       // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[^A-Za-z_]*$/))
       .messages(JoiMessages),
+
     lang: Joi.string()
       // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[A-Za-z]*$/))
@@ -73,6 +78,7 @@ export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
 export const validateLevelUpdate = (req, res, next) => {
   const schema = Joi.object({
     newLevelName: Joi.string().optional().trim().min(1).messages(JoiMessages),
+
     newCustomProps: Joi.object({
       color: Joi.string()
         .trim()
@@ -85,11 +91,13 @@ export const validateLevelUpdate = (req, res, next) => {
     })
       .optional()
       .messages(JoiMessages),
+
     lang: Joi.string()
       .valid('Eng', 'Arab')
       .optional()
       .trim()
       .messages(JoiMessages),
+
     category: Joi.string()
       .trim()
       .required()
@@ -114,20 +122,20 @@ export const validateGetRecordsQuery = (req, res, next) => {
     sort: Joi.string()
       .trim()
       .optional()
-      // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^\w+[,][-]?[1]{1}$/))
       .messages(JoiMessages),
+
     ouid: Joi.string()
       .trim()
       .required()
-      // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[^A-Za-z_]*$/))
       .messages(JoiMessages),
+
     lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages),
+
     category: Joi.string()
       .trim()
       .required()
-      // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[^A-Za-z_]*$/))
       .messages(JoiMessages)
   });
@@ -157,4 +165,4 @@ export const validateGetRecordsQuery = (req, res, next) => {
   next();
 };
 
-export const x = catchAsyncErr(async (req, res) => {});
+export const x = catchAsyncErr(async (req, res) => '');
