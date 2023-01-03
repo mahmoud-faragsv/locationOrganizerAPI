@@ -30,8 +30,8 @@ export const ViewsQueries = {
 };
 
 export const resourceBundleQueries = {
-  getAllRecordsByOUID: `SELECT MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE 
-  FROM resource_bundle 
+  getAllRecordsByOUID: `SELECT UNIT_CODE, MESSAGE_KEY, BUNDLE_KEY, MESSAGE_VALUE 
+  FROM resource_bundle INNER JOIN lo_unit ON lo_unit.NAME_KEY = resource_bundle.MESSAGE_KEY
   WHERE  MESSAGE_KEY IN ( SELECT NAME_KEY FROM lo_unit WHERE OUID = ?) AND LANGUAGE_ID = ?;
   `
 };
