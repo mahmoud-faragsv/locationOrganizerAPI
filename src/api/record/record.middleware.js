@@ -1,6 +1,7 @@
 import moment from 'moment';
 import multer from 'multer';
 import sharp from 'sharp';
+import * as fs from 'fs';
 
 import CONSTANTS from '../../../common/messages.js';
 import { getMsgKey } from '../../../common/shared.services.js';
@@ -11,7 +12,8 @@ import {
   getIdByUnitCode,
   GetLookUpId,
   getUnitCode,
-  getUnitTypeId
+  getUnitTypeId,
+  updateTime
 } from './record.services.js';
 
 //!store the image directly to the disk
@@ -152,5 +154,21 @@ export const buildLoUnitQueryParams = catchAsyncErr(async (req, res, next) => {
     loUnitParams[0][2] = qRes[0][0].ID;
   }
   req.loUnitParams = loUnitParams;
+  next();
+});
+
+export const deleteImageIfExists = catchAsyncErr(async (req, res, next) => {
+  const { code } = req.params;
+  const { ouid } = req.query;
+  const path = `./public/map-uploads/`;
+  const regex = new RegExp(`map-${code}`);
+  const filteredImgs = fs.readdirSync(path).filter((f) => regex.test(f));
+
+  if (filteredImgs.length > 0) {
+    filteredImgs.forEach((f) => fs.unlinkSync(path + f));
+    const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    await updateTime([time, code, ouid]);
+  }
+
   next();
 });

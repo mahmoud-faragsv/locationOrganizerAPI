@@ -7,9 +7,9 @@ import {
   searchOnLoUint,
   updateImage,
   getRecordInfo,
-  updateCodeAndImage,
   updateName,
-  recordGetAll
+  recordGetAll,
+  updateTime
 } from './record.services.js';
 import CONSTANTS from '../../../common/messages.js';
 // import { addToResBundleAndLOUnit } from './record.utils.js';
@@ -98,37 +98,24 @@ export const getRecord = catchAsyncErr(async (req, res, next) => {
   });
 });
 
-// http://domain/api/v1/record/:title PATCH
+// http://domain/api/v1/record/:code?lang PATCH
 export const updateRecord = catchAsyncErr(async (req, res, next) => {
   const { langTypeID, langType } = req;
   const { code } = req.params;
-  const { newRecordName, newUnitCode, ouid } = req.body;
+  const { newRecordName, ouid } = req.body;
 
-  const record = await recordGetAll([code]);
+  const record = await recordGetAll([code, ouid]);
   const { NAME_KEY } = record[0][0];
+  await updateName([newRecordName, NAME_KEY, langTypeID]);
 
-  // deleteImageInPublic(code);
-  if (newRecordName) {
-    await updateName([newRecordName, NAME_KEY, langTypeID]);
-  }
-  if (newUnitCode) {
-    const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    await updateCodeAndImage([newUnitCode, time, code, ouid]);
-  }
-  const updatedRecord = await recordGetAll([newUnitCode || code]);
+  const time = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+  await updateTime([time, code, ouid]);
 
   res.status(StatusCodes.OK).json({
     status: CONSTANTS.MSG.SUCCESS[langType],
     message: CONSTANTS.MSG.RECORD_UPDATE_SUCCESS[langType],
-    data: updatedRecord[0][0]
+    update: await recordGetAll([code, ouid])
   });
-});
-
-// http://domain/api/v1/record/:id
-export const deleteRecord = catchAsyncErr(async (req, res, next) => {
-  res
-    .status(200)
-    .json({ status: 'success', message: 'record deleted successfully' });
 });
 
 export const search = catchAsyncErr(async (req, res) => {

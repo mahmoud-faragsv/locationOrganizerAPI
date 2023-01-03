@@ -71,7 +71,7 @@ export const validateGetLevelsQuery = catchAsyncErr(async (req, res, next) => {
 });
 
 export const validateLevelUpdate = (req, res, next) => {
-  const schema = Joi.object({
+  const schemaBody = Joi.object({
     newLevelName: Joi.string().optional().trim().min(1).messages(JoiMessages),
     newCustomProps: Joi.object({
       color: Joi.string()
@@ -84,24 +84,30 @@ export const validateLevelUpdate = (req, res, next) => {
         .messages(JoiMessages)
     })
       .optional()
-      .messages(JoiMessages),
-    lang: Joi.string()
-      .valid('Eng', 'Arab')
-      .optional()
-      .trim()
-      .messages(JoiMessages),
-    category: Joi.string()
-      .trim()
-      .required()
-      // eslint-disable-next-line prefer-regex-literals
-      .pattern(new RegExp(/^[^A-Za-z_]*$/))
       .messages(JoiMessages)
   });
-  const { error } = schema.validate(req.body);
+
+  const schemaQuery = Joi.object({
+    lang: Joi.string()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[A-Za-z]*$/))
+      .required()
+      .trim()
+      .messages(JoiMessages)
+  });
+  const { error } = schemaBody.validate(req.body);
+  const { error: error2 } = schemaQuery.validate(req.query);
   if (error)
     return next(
       new BadRequestErr(
         error.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+  if (error2)
+    return next(
+      new BadRequestErr(
+        error2.details[0].message,
         CONSTANTS.MSG.FAIL[req.langType]
       )
     );
@@ -123,17 +129,16 @@ export const validateGetRecordsQuery = (req, res, next) => {
       // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[^A-Za-z_]*$/))
       .messages(JoiMessages),
-    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages),
-    category: Joi.string()
-      .trim()
-      .required()
-      // eslint-disable-next-line prefer-regex-literals
-      .pattern(new RegExp(/^[^A-Za-z_]*$/))
-      .messages(JoiMessages)
+    lang: Joi.string().valid('Eng', 'Arab').trim().messages(JoiMessages)
   });
 
   const schemaParams = Joi.object({
-    title: Joi.string().trim().required().messages(JoiMessages)
+    key: Joi.string()
+      .trim()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^msgk_[A-Za-z0-9]+/))
+      .required()
+      .messages(JoiMessages)
   });
 
   const { error } = schemaQuery.validate(req.query);

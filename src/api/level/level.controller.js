@@ -5,7 +5,7 @@ import catchAsyncErr from '../../general-utils/catchAsyncErr.js';
 import {
   addToLookUp,
   addToTypeValidation,
-  getFromLookUp,
+  getFromLookUpWithUniqueKey,
   getNumOfRecords,
   updateLookUpTitleKeyAndCustomProps,
   updateResBndlMessageValue,
@@ -108,47 +108,43 @@ export const getAllLevels = catchAsyncErr(async (req, res) => {
   });
 });
 
-//? http://localhost:3000/api/v1/level/:title PATCH
+//? http://localhost:3000/api/v1/level/:key?lang PATCH
 export const updateLevel = catchAsyncErr(async (req, res) => {
-  const { title } = req.params;
+  const { key } = req.params;
   // eslint-disable-next-line prefer-const
-  let { newLevelName, newCustomProps, category } = req.body;
+  let { newLevelName, newCustomProps } = req.body;
   const { langTypeID, langType } = req;
 
   newCustomProps = JSON.stringify(newCustomProps);
 
-  const oldLevelRes = await getFromLookUp([title, category]);
-  const { UNIQUE_KEY: uniqueKey, CUSTOM_PROPS: oldCustomProps } =
+  const oldLevelRes = await getFromLookUpWithUniqueKey([key]);
+  const { TITLE_KEY: oldLevelName, CUSTOM_PROPS: oldCustomProps } =
     oldLevelRes[0][0];
 
   if (newLevelName)
-    await updateResBndlMessageValue([newLevelName, uniqueKey, langTypeID]);
+    await updateResBndlMessageValue([newLevelName, key, langTypeID]);
 
   if (newLevelName || newCustomProps)
     await updateLookUpTitleKeyAndCustomProps([
-      newLevelName || title,
+      newLevelName || oldLevelName,
       newCustomProps || oldCustomProps,
-      title,
-      category
+      key
     ]);
-
-  const updatedLevel = await getFromLookUp([newLevelName || title, category]);
 
   res.status(StatusCodes.OK).json({
     status: CONSTANTS.MSG.SUCCESS[langType],
-    message: CONSTANTS.MSG.UPDATE_LEVEL_SUCCESS[langType],
-    data: updatedLevel[0][0]
+    message: CONSTANTS.MSG.UPDATE_LEVEL_SUCCESS[langType]
   });
 });
 
 // eslint-disable-next-line no-debugger
-// http://domain/api/v1/level/:title?sort&ouid&lang&category GET
+// http://domain/api/v1/level/:key?sort&ouid&lang GET
 export const getAllRecords = catchAsyncErr(async (req, res, next) => {
-  const { title } = req.params;
+  const { key } = req.params;
   const { langTypeID, langType } = req;
-  const { sort, category, ouid } = req.query;
+  const { sort, ouid } = req.query;
 
-  const levelRes = await getFromLookUp([title, category]);
+  const levelRes = await getFromLookUpWithUniqueKey([key]);
   const { ID } = levelRes[0][0];
 
   const allRecordsRes = await getAllRecordsAndSort(

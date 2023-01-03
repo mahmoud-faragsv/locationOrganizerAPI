@@ -57,7 +57,8 @@ export const updateResBndlMessageValue = (params) =>
 export const updateLookUpTitleKeyAndCustomProps = (params) =>
   Query(lookUpQueries.updateTitleKeyAndCustomProps, params);
 
-export const getFromLookUp = (params) => Query(lookUpQueries.get, params);
+export const getFromLookUpWithUniqueKey = (params) =>
+  Query(lookUpQueries.getWithUniqueKey, params);
 /**
  * @async
  * @function  responsible for fetching all the client levels(categories)

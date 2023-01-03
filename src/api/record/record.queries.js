@@ -4,12 +4,12 @@ import { buildSearchQuery } from './record.utils.js';
 export const loUnitQueries = {
   insert: `INSERT INTO lo_unit (NAME_KEY,UNIT_CODE, PARENT_ID, TYPE, OUID,IMAGE_VSID, ADDED_BY,UPDATED_BY,ADD_TIME,UPDATE_TIME)
   VALUES ?;`,
-  get: `select * FROM lo_unit WHERE UNIT_CODE = ?;`,
+  get: `select * FROM lo_unit WHERE UNIT_CODE = ? AND OUID = ?;`,
   selectIdByUnitCode: `SELECT ID FROM lo_unit WHERE UNIT_CODE = ? ;
   `,
   selectUnitCode: ' SELECT UNIT_CODE FROM lo_unit WHERE UNIT_CODE=?;',
   updateMapImage: ` UPDATE lo_unit SET IMAGE_VSID = ? WHERE UNIT_CODE = ?;`,
-  updateRecordCodeImage: `UPDATE lo_unit SET UNIT_CODE = ?, UPDATE_TIME = ? WHERE UNIT_CODE = ? AND OUID = ?;`
+  updateUpdateTime: `UPDATE lo_unit SET UPDATE_TIME = ? WHERE UNIT_CODE = ? AND OUID = ?;`
 };
 export const typeValidationQueries = {
   selectParentId: `SELECT DISTINCT(t1.TYPE_ID) FROM lo_type_validation t1  

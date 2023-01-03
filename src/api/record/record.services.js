@@ -41,10 +41,10 @@ export const searchOnLoUint = (params, queryOptions) => {
 
 export const getRecordInfo = (params) => Query(ViewsQueries.get, params);
 
-export const updateCodeAndImage = (params) =>
-  Query(loUnitQueries.updateRecordCodeImage, params);
-
 export const updateName = (params) =>
   Query(bundleResourceQueries.updateMessageValue, params);
 
 export const recordGetAll = (params) => Query(loUnitQueries.get, params);
+
+export const updateTime = (params) =>
+  Query(loUnitQueries.updateUpdateTime, params);
