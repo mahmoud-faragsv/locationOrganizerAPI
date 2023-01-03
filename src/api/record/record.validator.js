@@ -91,26 +91,29 @@ export const validateGetRecordQuery = (req, res, next) => {
 
 export const validateRecordUpdate = (req, res, next) => {
   const schemaBody = Joi.object({
-    newRecordName: Joi.string().optional().trim().message(JoiMessages),
-    newUnitCode: Joi.string().optional().trim().message(JoiMessages),
+    newRecordName: Joi.string().required().trim().message(JoiMessages),
     ouid: Joi.string()
       .trim()
       .required()
       // eslint-disable-next-line prefer-regex-literals
       .pattern(new RegExp(/^[^A-Za-z_]*$/))
-      .messages(JoiMessages),
-    lang: Joi.string()
-      // eslint-disable-next-line prefer-regex-literals
-      .pattern(new RegExp(/^[A-Za-z]*$/))
-      .trim()
       .messages(JoiMessages)
   });
 
   const schemaParams = Joi.object({
     code: Joi.string().trim().required().messages(JoiMessages)
   });
+
+  const schemaQuery = Joi.object({
+    lang: Joi.string()
+      // eslint-disable-next-line prefer-regex-literals
+      .pattern(new RegExp(/^[A-Za-z]*$/))
+      .trim()
+      .messages(JoiMessages)
+  });
   const { error } = schemaParams.validate(req.params);
   const { error: error2 } = schemaBody.validate(req.body);
+  const { error: error3 } = schemaQuery.validate(req.query);
   // console.log(error);
   if (error)
     return next(
@@ -123,6 +126,13 @@ export const validateRecordUpdate = (req, res, next) => {
     return next(
       new BadRequestErr(
         error2.details[0].message,
+        CONSTANTS.MSG.FAIL[req.langType]
+      )
+    );
+  if (error3)
+    return next(
+      new BadRequestErr(
+        error3.details[0].message,
         CONSTANTS.MSG.FAIL[req.langType]
       )
     );

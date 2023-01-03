@@ -4,11 +4,11 @@ import {
   buildLoUnitQueryParams,
   buildResBundleParams,
   uploadSingleMap,
-  resizeUploadedMap
+  resizeUploadedMap,
+  deleteImageIfExists
 } from './record.middleware.js';
 import {
   addChildRecord,
-  deleteRecord,
   updateRecord,
   addRootRecord,
   uploadLocationMap,
@@ -55,8 +55,12 @@ router.route('/search').get(search);
 router
   .route('/:code')
   .get(validateGetRecordQuery, getRecord)
-  .post(uploadSingleMap, resizeUploadedMap, uploadLocationMap)
-  .patch(validateRecordUpdate, updateRecord)
-  .delete(deleteRecord);
+  .post(
+    deleteImageIfExists,
+    uploadSingleMap,
+    resizeUploadedMap,
+    uploadLocationMap
+  )
+  .patch(validateRecordUpdate, updateRecord);
 
 export default router;

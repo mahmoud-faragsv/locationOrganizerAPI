@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 // eslint-disable-next-line import/no-cycle
 import { addToLoUnit } from './record.services.js';
 import { addToResBundle } from '../../../common/shared.services.js';
@@ -147,12 +146,4 @@ export const addToResBundleAndLOUnit = async (newResBundleRow, newRecord) => {
    */
 
   await addToLoUnit([newRecord]);
-};
-
-export const deleteImageInPublic = (code) => {
-  const path = `./public/map-uploads/`;
-  const regex = new RegExp(`map-${code}`);
-  fs.readdirSync(path)
-    .filter((f) => regex.test(f))
-    .forEach((f) => fs.unlinkSync(path + f));
 };

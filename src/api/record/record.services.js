@@ -30,7 +30,10 @@ export const addToLoUnit = (params) => {
 export const getUnitTypeId = () => {
   console.log('Inside record.service.getUnitTypeId function');
 
-  console.log('typeValidationQueries.selectParentId:', typeValidationQueries.selectParentId);
+  console.log(
+    'typeValidationQueries.selectParentId:',
+    typeValidationQueries.selectParentId
+  );
   console.log('params:');
 
   return Query(typeValidationQueries.selectParentId);
@@ -46,7 +49,10 @@ export const GetLookUpId = (params) => {
 export const getIdByUnitCode = (params) => {
   console.log('Inside record.service.getIdByUnitCode function');
 
-  console.log('loUnitQueries.selectIdByUnitCode:', loUnitQueries.selectIdByUnitCode);
+  console.log(
+    'loUnitQueries.selectIdByUnitCode:',
+    loUnitQueries.selectIdByUnitCode
+  );
   console.log('params:', params);
 
   return Query(loUnitQueries.selectIdByUnitCode, params);
@@ -79,7 +85,10 @@ export const updateImage = (params) => {
 export const searchOnLoUint = (params, queryOptions) => {
   console.log('Inside record.service.searchOnLoUint function');
 
-  console.log(' ViewsQueries.select_from_vw_lo_units:', ViewsQueries.select_from_vw_lo_units(queryOptions));
+  console.log(
+    ' ViewsQueries.select_from_vw_lo_units:',
+    ViewsQueries.select_from_vw_lo_units(queryOptions)
+  );
   console.log('params:', params);
 
   return Query(ViewsQueries.select_from_vw_lo_units(queryOptions), params);
@@ -97,7 +106,10 @@ export const getRecordInfo = (params) => {
 export const updateCodeAndImage = (params) => {
   console.log('Inside record.service.updateCodeAndImage function');
 
-  console.log('  loUnitQueries.updateRecordCodeImage:', loUnitQueries.updateRecordCodeImage);
+  console.log(
+    '  loUnitQueries.updateRecordCodeImage:',
+    loUnitQueries.updateRecordCodeImage
+  );
   console.log('params:', params);
 
   return Query(loUnitQueries.updateRecordCodeImage, params);
@@ -106,7 +118,10 @@ export const updateCodeAndImage = (params) => {
 export const updateName = (params) => {
   console.log('Inside record.service.updateName function');
 
-  console.log('bundleResourceQueries.updateMessageValue:', bundleResourceQueries.updateMessageValue)
+  console.log(
+    'bundleResourceQueries.updateMessageValue:',
+    bundleResourceQueries.updateMessageValue
+  );
   console.log('params:', params);
 
   return Query(bundleResourceQueries.updateMessageValue, params);
@@ -124,9 +139,23 @@ export const recordGetAll = (params) => {
 export const selectRecordsByOUID = (params) => {
   console.log('Inside record.service.selectRecordsByOUID function');
 
-
-  console.log('resourceBundleQueries.getAllRecordsByOUID:', resourceBundleQueries.getAllRecordsByOUID);
+  console.log(
+    'resourceBundleQueries.getAllRecordsByOUID:',
+    resourceBundleQueries.getAllRecordsByOUID
+  );
   console.log('params:', params);
 
   return Query(resourceBundleQueries.getAllRecordsByOUID, params);
+};
+
+export const updateTime = (params) => {
+  console.log('Inside record.services.updateTime function');
+
+  console.log(
+    'loUnitQueries.updateUpdateTime: ',
+    loUnitQueries.updateUpdateTime
+  );
+  console.log('params: ', params);
+
+  return Query(loUnitQueries.updateUpdateTime, params);
 };

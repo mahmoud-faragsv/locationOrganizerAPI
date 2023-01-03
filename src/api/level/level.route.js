@@ -24,7 +24,7 @@ router.route('/child-levels').get(validateGetLevelsQuery, fetchAllChildLevels);
 router.route('/all-levels').get(validateGetLevelsQuery, getAllLevels);
 
 router
-  .route('/:title')
+  .route('/:key')
   .get(validateGetRecordsQuery, getAllRecords)
   .patch(validateLevelUpdate, updateLevel);
 
